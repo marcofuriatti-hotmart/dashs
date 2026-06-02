@@ -16,6 +16,7 @@
   .kpi .label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
   .kpi .value { font-size: 26px; font-weight: 700; color: #fff; }
   .kpi .delta { font-size: 12px; margin-top: 5px; }
+  .kpi .info { font-size: 10px; color: #666; margin-top: 4px; font-style: italic; }
   .neg { color: #ff6b6b; } .neu { color: #aaa; }
   .badge { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 20px; margin-left: 5px; vertical-align: middle; }
   .badge.critical { background: #ff4444; color: #fff; }
@@ -36,6 +37,7 @@
   td.dn { color: #ff6b6b; text-align: right; font-weight: 600; }
   td.d0 { color: #aaa; text-align: right; }
   .footer { text-align: center; font-size: 11px; color: #444; margin-top: 32px; padding-top: 16px; border-top: 1px solid #2a2a40; }
+  .footnote { font-size: 11px; color: #666; margin-top: 10px; font-style: italic; }
   @media (max-width: 900px) {
     .charts-grid-2 { grid-template-columns: 1fr; }
     .charts-grid-4 { grid-template-columns: 1fr 1fr; }
@@ -45,7 +47,7 @@
 <body>
 
 <h1>📱 Hotmart App — MAU Dashboard</h1>
-<div class="subtitle">Período de análise: Março a Maio/2026 · Histórico: Dez/2025 – Mai/2026 · Fonte: Datahub Hotmart</div>
+<div class="subtitle">Período: Dezembro/2025 – Maio/2026 · Fonte: Datahub Hotmart (dh_sparkle + dh_hotmart_app_wallet)</div>
 
 <div class="section-title">KPIs — Maio/2026 (último mês)</div>
 <div class="grid-kpi">
@@ -56,7 +58,10 @@
   <div class="kpi"><div class="label">5️⃣ Hotmart Card</div><div class="value">11.492</div><div class="delta neg">▼ -15% vs Mar/26</div></div>
   <div class="kpi"><div class="label">6️⃣ Histórico de Saque</div><div class="value">9.490</div><div class="delta neg">▼ -6% vs Mar/26</div></div>
   <div class="kpi"><div class="label">7️⃣ Antecipação</div><div class="value">5.490</div><div class="delta neu">→ -4% vs Mar/26</div></div>
-  <div class="kpi"><div class="label">⚠️ KYC <span class="badge critical">CRÍTICO</span></div><div class="value">637</div><div class="delta neg">▼ -77% vs Mar/26</div></div>
+  <div class="kpi"><div class="label">⚠️ KYC <span class="badge critical">CRÍTICO</span></div><div class="value">637</div><div class="delta neg">▼ -77% vs Mar/26</div><div class="info">Fluxo de solicitar cartão</div></div>
+  <div class="kpi"><div class="label">9️⃣ Saque (fluxo)</div><div class="value">1.987</div><div class="delta neg">▼ -10% vs Mar/26</div></div>
+  <div class="kpi"><div class="label">🔟 Meus Badges <span class="badge critical">CRÍTICO</span></div><div class="value">30</div><div class="delta neg">▼ -89% vs Mar/26</div></div>
+  <div class="kpi"><div class="label">— Hotlinks *</div><div class="value">—</div><div class="delta neu">Sem tracking</div><div class="info">* Sem eventos mapeados</div></div>
 </div>
 
 <div class="section-title">Evolução MAU — Dez/2025 a Mai/2026</div>
@@ -67,16 +72,16 @@
 
 <div class="charts-grid-2">
   <div class="chart-card">
-    <h3>Funcionalidades Secundárias (Mar–Mai/26)</h3>
+    <h3>Funcionalidades Secundárias — Dez/25 a Mai/26</h3>
     <canvas id="chartSecondary" height="160"></canvas>
   </div>
   <div class="chart-card">
-    <h3>Funcionalidades em Alerta 🔴 (Mar–Mai/26)</h3>
+    <h3>Funcionalidades em Alerta 🔴 — Dez/25 a Mai/26</h3>
     <canvas id="chartAlert" height="160"></canvas>
   </div>
 </div>
 
-<div class="section-title">Split por Plataforma — MAU Mensal Mar/Abr/Mai 2026</div>
+<div class="section-title">Split por Plataforma — MAU Mensal Dez/25 a Mai/26</div>
 <div class="charts-grid-4">
   <div class="chart-card"><h3>Wallet / Saldo</h3><canvas id="platWallet" height="180"></canvas></div>
   <div class="chart-card"><h3>Receitas (Pocket)</h3><canvas id="platPocket" height="180"></canvas></div>
@@ -84,32 +89,33 @@
   <div class="chart-card"><h3>Saque (fluxo)</h3><canvas id="platSaque" height="180"></canvas></div>
 </div>
 
-<div class="section-title">Tabela Completa — MAU por Funcionalidade (Últimos 3 Meses)</div>
+<div class="section-title">Tabela Completa — MAU por Funcionalidade (Dez/2025 – Mai/2026)</div>
 <div class="chart-full">
   <table>
     <thead>
-      <tr><th>#</th><th>Funcionalidade</th><th>Status</th><th class="num">Mar/26</th><th class="num">Abr/26</th><th class="num">Mai/26</th><th class="num">Δ 3m</th></tr>
+      <tr><th>#</th><th>Funcionalidade</th><th>Status</th><th class="num">Dez/25</th><th class="num">Jan/26</th><th class="num">Fev/26</th><th class="num">Mar/26</th><th class="num">Abr/26</th><th class="num">Mai/26</th><th class="num">Δ 6m</th></tr>
     </thead>
     <tbody>
-      <tr><td>1</td><td>Wallet / Saldo</td><td><span class="badge warning">atenção</span></td><td class="num">182.793</td><td class="num">176.486</td><td class="num">171.805</td><td class="dn">-6%</td></tr>
-      <tr><td>2</td><td>Receitas (Pocket)</td><td><span class="badge ok">saudável</span></td><td class="num">40.666</td><td class="num">38.070</td><td class="num">40.646</td><td class="d0">0%</td></tr>
-      <tr><td>3</td><td>Extrato</td><td><span class="badge warning">atenção</span></td><td class="num">41.524</td><td class="num">38.901</td><td class="num">38.606</td><td class="dn">-7%</td></tr>
-      <tr><td>4</td><td>Movimentações do Mês</td><td><span class="badge warning">atenção</span></td><td class="num">15.081</td><td class="num">14.062</td><td class="num">13.953</td><td class="dn">-7%</td></tr>
-      <tr><td>5</td><td>Hotmart Card</td><td><span class="badge critical">crítico</span></td><td class="num">13.510</td><td class="num">11.097</td><td class="num">11.492</td><td class="dn">-15%</td></tr>
-      <tr><td>6</td><td>Histórico de Saque</td><td><span class="badge warning">atenção</span></td><td class="num">10.111</td><td class="num">9.452</td><td class="num">9.490</td><td class="dn">-6%</td></tr>
-      <tr><td>7</td><td>Antecipação</td><td><span class="badge ok">saudável</span></td><td class="num">5.704</td><td class="num">5.216</td><td class="num">5.490</td><td class="d0">-4%</td></tr>
-      <tr><td>8</td><td>KYC</td><td><span class="badge critical">crítico</span></td><td class="num">2.810</td><td class="num">1.441</td><td class="num">637</td><td class="dn">-77%</td></tr>
-      <tr><td>9</td><td>Saque (fluxo)</td><td><span class="badge warning">atenção</span></td><td class="num">2.212</td><td class="num">2.082</td><td class="num">1.987</td><td class="dn">-10%</td></tr>
-      <tr><td>10</td><td>Meus Badges (Journey)</td><td><span class="badge critical">crítico</span></td><td class="num">279</td><td class="num">87</td><td class="num">30</td><td class="dn">-89%</td></tr>
+      <tr><td>1</td><td>Wallet / Saldo</td><td><span class="badge warning">atenção</span></td><td class="num">149.470</td><td class="num">204.660</td><td class="num">182.854</td><td class="num">182.793</td><td class="num">176.486</td><td class="num">171.805</td><td class="dn">-16% vs jan</td></tr>
+      <tr><td>2</td><td>Receitas (Pocket)</td><td><span class="badge ok">saudável</span></td><td class="num">35.267</td><td class="num">43.548</td><td class="num">40.392</td><td class="num">40.666</td><td class="num">38.070</td><td class="num">40.646</td><td class="d0">estável</td></tr>
+      <tr><td>3</td><td>Extrato</td><td><span class="badge warning">atenção</span></td><td class="num">35.496</td><td class="num">46.148</td><td class="num">41.735</td><td class="num">41.524</td><td class="num">38.901</td><td class="num">38.606</td><td class="dn">-16% vs jan</td></tr>
+      <tr><td>4</td><td>Movimentações do Mês</td><td><span class="badge warning">atenção</span></td><td class="num">13.569</td><td class="num">17.891</td><td class="num">15.694</td><td class="num">15.081</td><td class="num">14.062</td><td class="num">13.953</td><td class="dn">-22% vs jan</td></tr>
+      <tr><td>5</td><td>Hotmart Card</td><td><span class="badge critical">crítico</span></td><td class="num">11.684</td><td class="num">17.224</td><td class="num">14.413</td><td class="num">13.510</td><td class="num">11.097</td><td class="num">11.492</td><td class="dn">-33% vs jan</td></tr>
+      <tr><td>6</td><td>Histórico de Saque</td><td><span class="badge warning">atenção</span></td><td class="num">8.473</td><td class="num">10.846</td><td class="num">9.926</td><td class="num">10.111</td><td class="num">9.452</td><td class="num">9.490</td><td class="dn">-12% vs jan</td></tr>
+      <tr><td>7</td><td>Antecipação</td><td><span class="badge ok">saudável</span></td><td class="num">5.306</td><td class="num">5.856</td><td class="num">5.498</td><td class="num">5.704</td><td class="num">5.216</td><td class="num">5.490</td><td class="d0">estável</td></tr>
+      <tr><td>8</td><td>KYC ¹</td><td><span class="badge critical">crítico</span></td><td class="num">2.770</td><td class="num">3.128</td><td class="num">2.813</td><td class="num">2.810</td><td class="num">1.441</td><td class="num">637</td><td class="dn">-80%</td></tr>
+      <tr><td>9</td><td>Saque (fluxo)</td><td><span class="badge warning">atenção</span></td><td class="num">2.451</td><td class="num">2.234</td><td class="num">2.204</td><td class="num">2.212</td><td class="num">2.082</td><td class="num">1.987</td><td class="dn">-19%</td></tr>
+      <tr><td>10</td><td>Meus Badges (Journey)</td><td><span class="badge critical">crítico</span></td><td class="num">231</td><td class="num">277</td><td class="num">262</td><td class="num">279</td><td class="num">87</td><td class="num">30</td><td class="dn">-89%</td></tr>
+      <tr><td>—</td><td>Hotlinks *</td><td><span class="badge warning">s/ tracking</span></td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="d0">—</td></tr>
     </tbody>
   </table>
+  <div class="footnote">¹ KYC = Fluxo de validação para solicitar cartão Hotmart<br>* Hotlinks não possui eventos de rastreamento mapeados atualmente</div>
 </div>
 
 <div class="footer">Hotmart App MAU Dashboard · Gerado em 02/06/2026 · Fonte: Datahub Hotmart (dh_sparkle + dh_hotmart_app_wallet)</div>
 
 <script>
 const meses6 = ['Dez/25','Jan/26','Fev/26','Mar/26','Abr/26','Mai/26'];
-const meses3 = ['Mar/26','Abr/26','Mai/26'];
 
 new Chart(document.getElementById('chartTop5'), {
   type: 'line',
@@ -117,8 +123,8 @@ new Chart(document.getElementById('chartTop5'), {
     labels: meses6,
     datasets: [
       { label: 'Wallet / Saldo', data: [149470,204660,182854,182793,176486,171805], borderColor: '#7c3aed', backgroundColor: 'rgba(124,58,237,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
-      { label: 'Receitas (Pocket)', data: [35744,44100,40906,40666,38070,40646], borderColor: '#06b6d4', backgroundColor: 'rgba(6,182,212,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
-      { label: 'Extrato', data: [35744,46428,42024,41524,38901,38606], borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
+      { label: 'Receitas (Pocket)', data: [35267,43548,40392,40666,38070,40646], borderColor: '#06b6d4', backgroundColor: 'rgba(6,182,212,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
+      { label: 'Extrato', data: [35496,46148,41735,41524,38901,38606], borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
       { label: 'Movimentações do Mês', data: [13569,17891,15694,15081,14062,13953], borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
       { label: 'Hotmart Card', data: [11684,17224,14413,13510,11097,11492], borderColor: '#f43f5e', backgroundColor: 'rgba(244,63,94,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
     ]
@@ -127,13 +133,13 @@ new Chart(document.getElementById('chartTop5'), {
 });
 
 new Chart(document.getElementById('chartSecondary'), {
-  type: 'bar',
+  type: 'line',
   data: {
-    labels: meses3,
+    labels: meses6,
     datasets: [
-      { label: 'Histórico de Saque', data: [10111,9452,9490], backgroundColor: '#7c3aed' },
-      { label: 'Antecipação', data: [5704,5216,5490], backgroundColor: '#06b6d4' },
-      { label: 'Saque (fluxo)', data: [2212,2082,1987], backgroundColor: '#f59e0b' },
+      { label: 'Histórico de Saque', data: [8473,10846,9926,10111,9452,9490], borderColor: '#7c3aed', backgroundColor: 'rgba(124,58,237,0.06)', tension: 0.4, fill: true, pointRadius: 4 },
+      { label: 'Antecipação', data: [5306,5856,5498,5704,5216,5490], borderColor: '#06b6d4', backgroundColor: 'rgba(6,182,212,0.06)', tension: 0.4, fill: true, pointRadius: 4 },
+      { label: 'Saque (fluxo)', data: [2451,2234,2204,2212,2082,1987], borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.06)', tension: 0.4, fill: true, pointRadius: 4 },
     ]
   },
   options: { responsive: true, plugins: { legend: { labels: { color: '#ccc', font: { size: 11 } } } }, scales: { x: { ticks: { color: '#888' }, grid: { color: '#1e1e35' } }, y: { ticks: { color: '#888', callback: v => v.toLocaleString('pt-BR') }, grid: { color: '#1e1e35' } } } }
@@ -142,11 +148,11 @@ new Chart(document.getElementById('chartSecondary'), {
 new Chart(document.getElementById('chartAlert'), {
   type: 'line',
   data: {
-    labels: meses3,
+    labels: meses6,
     datasets: [
-      { label: 'KYC', data: [2810,1441,637], borderColor: '#ff4444', backgroundColor: 'rgba(255,68,68,0.1)', tension: 0.4, fill: true, pointRadius: 6 },
-      { label: 'Meus Badges', data: [279,87,30], borderColor: '#ff8c00', backgroundColor: 'rgba(255,140,0,0.1)', tension: 0.4, fill: true, pointRadius: 6 },
-      { label: 'Hotmart Card', data: [13510,11097,11492], borderColor: '#f43f5e', backgroundColor: 'rgba(244,63,94,0.08)', tension: 0.4, fill: true, pointRadius: 6 },
+      { label: 'KYC ¹', data: [2770,3128,2813,2810,1441,637], borderColor: '#ff4444', backgroundColor: 'rgba(255,68,68,0.1)', tension: 0.4, fill: true, pointRadius: 6 },
+      { label: 'Meus Badges', data: [231,277,262,279,87,30], borderColor: '#ff8c00', backgroundColor: 'rgba(255,140,0,0.1)', tension: 0.4, fill: true, pointRadius: 6 },
+      { label: 'Hotmart Card', data: [11684,17224,14413,13510,11097,11492], borderColor: '#f43f5e', backgroundColor: 'rgba(244,63,94,0.06)', tension: 0.4, fill: true, pointRadius: 4 },
     ]
   },
   options: { responsive: true, plugins: { legend: { labels: { color: '#ccc', font: { size: 11 } } } }, scales: { x: { ticks: { color: '#888' }, grid: { color: '#1e1e35' } }, y: { ticks: { color: '#888', callback: v => v.toLocaleString('pt-BR') }, grid: { color: '#1e1e35' } } } }
@@ -156,20 +162,20 @@ function makePlatformChart(id, androidData, iosData) {
   new Chart(document.getElementById(id), {
     type: 'bar',
     data: {
-      labels: meses3,
+      labels: meses6,
       datasets: [
         { label: '🤖 Android', data: androidData, backgroundColor: '#3ddc84' },
         { label: '🍎 iOS', data: iosData, backgroundColor: '#666' },
       ]
     },
-    options: { responsive: true, plugins: { legend: { labels: { color: '#ccc', font: { size: 10 }, boxWidth: 12 }, position: 'bottom' } }, scales: { x: { ticks: { color: '#888', font: { size: 10 } }, grid: { color: '#1e1e35' } }, y: { ticks: { color: '#888', font: { size: 10 }, callback: v => (v/1000).toFixed(0)+'k' }, grid: { color: '#1e1e35' } } } }
+    options: { responsive: true, plugins: { legend: { labels: { color: '#ccc', font: { size: 10 }, boxWidth: 12 }, position: 'bottom' } }, scales: { x: { ticks: { color: '#888', font: { size: 9 } }, grid: { color: '#1e1e35' } }, y: { ticks: { color: '#888', font: { size: 10 }, callback: v => (v/1000).toFixed(0)+'k' }, grid: { color: '#1e1e35' } } } }
   });
 }
 
-makePlatformChart('platWallet',  [105541,102133,98205], [79128,76079,75270]);
-makePlatformChart('platPocket',  [17814,17149,19716],   [23365,21435,21547]);
-makePlatformChart('platExtrato', [21490,20450,19825],   [20313,18704,19015]);
-makePlatformChart('platSaque',   [539,499,463],         [1679,1592,1531]);
+makePlatformChart('platWallet',  [83502,117062,103775,105541,102133,98205], [67590,89595,80931,79128,76079,75270]);
+makePlatformChart('platPocket',  [14868,19338,17652,17814,17149,19716],     [20876,24762,23254,23365,21435,21547]);
+makePlatformChart('platExtrato', [17239,23618,21314,21490,20450,19825],     [18505,22810,20710,20313,18704,19015]);
+makePlatformChart('platSaque',   [583,523,519,539,499,463],                 [1887,1724,1696,1679,1592,1531]);
 </script>
 </body>
 </html>
