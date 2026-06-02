@@ -78,13 +78,17 @@
   <div class="login-box">
     <div class="login-logo">📱</div>
     <div class="login-brand">Hotmart App Analytics</div>
-    <p>Este dashboard contém dados internos de uso do Hotmart App.<br>Faça login com sua conta Hotmart para continuar.</p>
+    <p>Acesso restrito a colaboradores Hotmart.<br>Insira suas credenciais para continuar.</p>
+    <input id="inp-user" type="text" placeholder="Usuário" autocomplete="username"
+      style="width:100%;padding:12px 14px;border-radius:8px;border:1px solid #2a2a40;background:#12122a;color:#fff;font-size:14px;margin-bottom:10px;outline:none;">
+    <input id="inp-pass" type="password" placeholder="Senha" autocomplete="current-password"
+      style="width:100%;padding:12px 14px;border-radius:8px;border:1px solid #2a2a40;background:#12122a;color:#fff;font-size:14px;margin-bottom:18px;outline:none;">
+    <div id="login-error" style="color:#ff6b6b;font-size:12px;margin-bottom:12px;display:none;">Usuário ou senha incorretos.</div>
     <button class="btn-login" onclick="doLogin()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-      Entrar com conta Hotmart
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+      Entrar
     </button>
     <div class="login-note">Acesso restrito · Apenas colaboradores Hotmart</div>
-    <div class="login-spinner" id="spinner">🔄 Autenticando...</div>
   </div>
 </div>
 
@@ -159,41 +163,47 @@
 
 <script>
 // ---- AUTH ----
-const SSO_URL = 'https://sso.hotmart.com/login';
-const REDIRECT = encodeURIComponent(window.location.href.split('?')[0]);
+// Adicione usuários autorizados aqui (usuário: senha)
+const USERS = {
+  'hotmart': 'trust@2026',
+  'marco': 'trust@2026',
+  'diretoria': 'trust@2026'
+};
 const SESSION_KEY = 'hm_dash_user';
 
+document.getElementById('inp-pass').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
 function doLogin() {
-  document.getElementById('spinner').style.display = 'block';
-  // Redireciona para o SSO da Hotmart com return_url para esta página
-  window.location.href = SSO_URL + '?service=' + REDIRECT + '&origin=dashs';
+  const user = document.getElementById('inp-user').value.trim().toLowerCase();
+  const pass = document.getElementById('inp-pass').value;
+  const err  = document.getElementById('login-error');
+
+  if (USERS[user] && USERS[user] === pass) {
+    err.style.display = 'none';
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ user, time: Date.now() }));
+    showDashboard(user);
+  } else {
+    err.style.display = 'block';
+    document.getElementById('inp-pass').value = '';
+    document.getElementById('inp-pass').focus();
+  }
 }
 
 function doLogout() {
   sessionStorage.removeItem(SESSION_KEY);
   document.getElementById('dashboard').style.display = 'none';
   document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('inp-pass').value = '';
 }
 
 function checkAuth() {
-  // Verifica token na URL (retorno do SSO via query param)
-  const params = new URLSearchParams(window.location.search);
-  const ticket = params.get('ticket') || params.get('token') || params.get('code');
-
-  // Verifica sessão salva
   const saved = sessionStorage.getItem(SESSION_KEY);
-
-  if (ticket) {
-    // Chegou de volta do SSO com ticket — salva sessão e limpa URL
-    const user = { ticket, time: Date.now() };
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify(user));
-    history.replaceState({}, '', window.location.pathname);
-    showDashboard('Colaborador Hotmart');
-  } else if (saved) {
-    const user = JSON.parse(saved);
-    // Sessão válida por 8h
-    if (Date.now() - user.time < 8 * 60 * 60 * 1000) {
-      showDashboard('Colaborador Hotmart');
+  if (saved) {
+    const s = JSON.parse(saved);
+    if (Date.now() - s.time < 8 * 60 * 60 * 1000) {
+      showDashboard(s.user);
     } else {
       sessionStorage.removeItem(SESSION_KEY);
     }
