@@ -81,6 +81,18 @@
   </div>
 </div>
 
+<div class="section-title">% Representatividade — Cada funcionalidade no total de acessos</div>
+<div class="charts-grid-2">
+  <div class="chart-card">
+    <h3>Distribuição de Uso — Maio/2026</h3>
+    <canvas id="pieUsage" height="220"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>% Representatividade por Mês — Dez/25 a Mai/26</h3>
+    <canvas id="chartUsageStacked" height="220"></canvas>
+  </div>
+</div>
+
 <div class="section-title">Split por Plataforma — MAU Mensal Dez/25 a Mai/26</div>
 <div class="charts-grid-4">
   <div class="chart-card"><h3>Wallet / Saldo</h3><canvas id="platWallet" height="180"></canvas></div>
@@ -176,6 +188,55 @@ makePlatformChart('platWallet',  [83502,117062,103775,105541,102133,98205], [675
 makePlatformChart('platPocket',  [14868,19338,17652,17814,17149,19716],     [20876,24762,23254,23365,21435,21547]);
 makePlatformChart('platExtrato', [17239,23618,21314,21490,20450,19825],     [18505,22810,20710,20313,18704,19015]);
 makePlatformChart('platSaque',   [583,523,519,539,499,463],                 [1887,1724,1696,1679,1592,1531]);
+
+// ---- PIE: representatividade Mai/26 ----
+const maiData = [171805,40646,38606,13953,11492,9490,5490,1987,637,30];
+const maiLabels = ['Wallet','Receitas','Extrato','Movim. Mês','Hotmart Card','Hist. Saque','Antecipação','Saque','KYC¹','Badges'];
+const maiColors = ['#7c3aed','#06b6d4','#f59e0b','#10b981','#f43f5e','#8b5cf6','#0ea5e9','#eab308','#ff4444','#ff8c00'];
+
+new Chart(document.getElementById('pieUsage'), {
+  type: 'doughnut',
+  data: {
+    labels: maiLabels,
+    datasets: [{ data: maiData, backgroundColor: maiColors, borderWidth: 0 }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'right', labels: { color: '#ccc', font: { size: 11 }, padding: 10, boxWidth: 14 } },
+      tooltip: { callbacks: { label: function(ctx) { const total = ctx.dataset.data.reduce((a,b)=>a+b,0); const pct = ((ctx.parsed/total)*100).toFixed(1); return ' ' + ctx.label + ': ' + ctx.parsed.toLocaleString('pt-BR') + ' (' + pct + '%)'; } } }
+    }
+  }
+});
+
+// ---- STACKED BAR: % por mês ----
+const allMonths = [
+  [149470,35267,35496,13569,11684,8473,5306,2451,2770,231],
+  [204660,43548,46148,17891,17224,10846,5856,2234,3128,277],
+  [182854,40392,41735,15694,14413,9926,5498,2204,2813,262],
+  [182793,40666,41524,15081,13510,10111,5704,2212,2810,279],
+  [176486,38070,38901,14062,11097,9452,5216,2082,1441,87],
+  [171805,40646,38606,13953,11492,9490,5490,1987,637,30]
+];
+const pctData = allMonths.map(m => { const t = m.reduce((a,b)=>a+b,0); return m.map(v => parseFloat(((v/t)*100).toFixed(1))); });
+const stackedDatasets = maiLabels.map((label, i) => ({
+  label: label,
+  data: pctData.map(m => m[i]),
+  backgroundColor: maiColors[i],
+}));
+
+new Chart(document.getElementById('chartUsageStacked'), {
+  type: 'bar',
+  data: { labels: meses6, datasets: stackedDatasets },
+  options: {
+    responsive: true,
+    plugins: { legend: { labels: { color: '#ccc', font: { size: 10 }, boxWidth: 12 }, position: 'bottom' }, tooltip: { callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.parsed.y + '%' } } },
+    scales: {
+      x: { stacked: true, ticks: { color: '#888' }, grid: { color: '#1e1e35' } },
+      y: { stacked: true, max: 100, ticks: { color: '#888', callback: v => v + '%' }, grid: { color: '#1e1e35' } }
+    }
+  }
+});
 </script>
 </body>
 </html>
