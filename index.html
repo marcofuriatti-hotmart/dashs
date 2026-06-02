@@ -7,36 +7,8 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f1a; color: #e0e0e0; }
-
-  /* ---- LOGIN ---- */
-  #login-screen {
-    display: flex; align-items: center; justify-content: center;
-    min-height: 100vh; background: #0f0f1a; padding: 24px;
-  }
-  .login-box {
-    background: #1a1a2e; border: 1px solid #2a2a40; border-radius: 16px;
-    padding: 48px 40px; text-align: center; max-width: 420px; width: 100%;
-  }
-  .login-logo { font-size: 36px; margin-bottom: 12px; }
-  .login-brand { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 6px; letter-spacing: -0.5px; }
-  .login-box p { font-size: 13px; color: #888; margin-bottom: 32px; line-height: 1.7; }
-  .btn-login {
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    background: #7c3aed; color: #fff; border: none; border-radius: 10px;
-    padding: 14px 28px; font-size: 15px; font-weight: 600; cursor: pointer;
-    width: 100%; transition: background 0.2s;
-  }
-  .btn-login:hover { background: #6d28d9; }
-  .login-note { font-size: 11px; color: #444; margin-top: 16px; }
-  .login-spinner { display: none; font-size: 13px; color: #888; margin-top: 20px; }
-
-  /* ---- DASHBOARD ---- */
-  #dashboard { display: none; padding: 24px; }
-  .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
-  .topbar h1 { font-size: 22px; font-weight: 700; color: #fff; }
-  .user-pill { display: flex; align-items: center; gap: 8px; background: #1a1a2e; border: 1px solid #2a2a40; border-radius: 20px; padding: 6px 14px; font-size: 12px; color: #ccc; cursor: pointer; }
-  .user-pill:hover { background: #22223a; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f1a; color: #e0e0e0; padding: 24px; }
+  h1 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 4px; }
   .subtitle { font-size: 13px; color: #888; margin-bottom: 28px; }
   .section-title { font-size: 15px; font-weight: 700; color: #fff; margin: 28px 0 14px; border-left: 3px solid #7c3aed; padding-left: 12px; }
   .grid-kpi { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 14px; margin-bottom: 28px; }
@@ -44,7 +16,7 @@
   .kpi .label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
   .kpi .value { font-size: 26px; font-weight: 700; color: #fff; }
   .kpi .delta { font-size: 12px; margin-top: 5px; }
-  .neg { color: #ff6b6b; } .pos { color: #51cf66; } .neu { color: #aaa; }
+  .neg { color: #ff6b6b; } .neu { color: #aaa; }
   .badge { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 20px; margin-left: 5px; vertical-align: middle; }
   .badge.critical { background: #ff4444; color: #fff; }
   .badge.warning { background: #ff8c00; color: #fff; }
@@ -62,7 +34,6 @@
   tr:hover td { background: #1e1e35; }
   td.num { text-align: right; font-variant-numeric: tabular-nums; }
   td.dn { color: #ff6b6b; text-align: right; font-weight: 600; }
-  td.dp { color: #51cf66; text-align: right; font-weight: 600; }
   td.d0 { color: #aaa; text-align: right; }
   .footer { text-align: center; font-size: 11px; color: #444; margin-top: 32px; padding-top: 16px; border-top: 1px solid #2a2a40; }
   @media (max-width: 900px) {
@@ -73,222 +44,132 @@
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
-<div id="login-screen">
-  <div class="login-box">
-    <div class="login-logo">📱</div>
-    <div class="login-brand">Hotmart App Analytics</div>
-    <p>Acesso restrito a colaboradores Hotmart.<br>Insira suas credenciais para continuar.</p>
-    <input id="inp-user" type="text" placeholder="Usuário" autocomplete="username"
-      style="width:100%;padding:12px 14px;border-radius:8px;border:1px solid #2a2a40;background:#12122a;color:#fff;font-size:14px;margin-bottom:10px;outline:none;">
-    <input id="inp-pass" type="password" placeholder="Senha" autocomplete="current-password"
-      style="width:100%;padding:12px 14px;border-radius:8px;border:1px solid #2a2a40;background:#12122a;color:#fff;font-size:14px;margin-bottom:18px;outline:none;">
-    <div id="login-error" style="color:#ff6b6b;font-size:12px;margin-bottom:12px;display:none;">Usuário ou senha incorretos.</div>
-    <button class="btn-login" onclick="doLogin()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-      Entrar
-    </button>
-    <div class="login-note">Acesso restrito · Apenas colaboradores Hotmart</div>
+<h1>📱 Hotmart App — MAU Dashboard</h1>
+<div class="subtitle">Período de análise: Março a Maio/2026 · Histórico: Dez/2025 – Mai/2026 · Fonte: Datahub Hotmart</div>
+
+<div class="section-title">KPIs — Maio/2026 (último mês)</div>
+<div class="grid-kpi">
+  <div class="kpi"><div class="label">🥇 Wallet / Saldo</div><div class="value">171.805</div><div class="delta neg">▼ -6% vs Mar/26</div></div>
+  <div class="kpi"><div class="label">🥈 Receitas (Pocket)</div><div class="value">40.646</div><div class="delta neu">→ Estável</div></div>
+  <div class="kpi"><div class="label">🥉 Extrato</div><div class="value">38.606</div><div class="delta neg">▼ -7% vs Mar/26</div></div>
+  <div class="kpi"><div class="label">4️⃣ Movimentações do Mês</div><div class="value">13.953</div><div class="delta neg">▼ -7% vs Mar/26</div></div>
+  <div class="kpi"><div class="label">5️⃣ Hotmart Card</div><div class="value">11.492</div><div class="delta neg">▼ -15% vs Mar/26</div></div>
+  <div class="kpi"><div class="label">6️⃣ Histórico de Saque</div><div class="value">9.490</div><div class="delta neg">▼ -6% vs Mar/26</div></div>
+  <div class="kpi"><div class="label">7️⃣ Antecipação</div><div class="value">5.490</div><div class="delta neu">→ -4% vs Mar/26</div></div>
+  <div class="kpi"><div class="label">⚠️ KYC <span class="badge critical">CRÍTICO</span></div><div class="value">637</div><div class="delta neg">▼ -77% vs Mar/26</div></div>
+</div>
+
+<div class="section-title">Evolução MAU — Dez/2025 a Mai/2026</div>
+<div class="chart-full">
+  <h3>Top 5 Funcionalidades — MAU Mensal</h3>
+  <canvas id="chartTop5" height="75"></canvas>
+</div>
+
+<div class="charts-grid-2">
+  <div class="chart-card">
+    <h3>Funcionalidades Secundárias (Mar–Mai/26)</h3>
+    <canvas id="chartSecondary" height="160"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>Funcionalidades em Alerta 🔴 (Mar–Mai/26)</h3>
+    <canvas id="chartAlert" height="160"></canvas>
   </div>
 </div>
 
-<!-- DASHBOARD -->
-<div id="dashboard">
-  <div class="topbar">
-    <h1>📱 Hotmart App — MAU Dashboard</h1>
-    <div class="user-pill" onclick="doLogout()" id="user-pill">👤 Carregando... · Sair</div>
-  </div>
-  <div class="subtitle">Período de análise: Março a Maio/2026 · Histórico: Dez/2025 – Mai/2026 · Fonte: Datahub Hotmart</div>
+<div class="section-title">Split por Plataforma — MAU Mensal Mar/Abr/Mai 2026</div>
+<div class="charts-grid-4">
+  <div class="chart-card"><h3>Wallet / Saldo</h3><canvas id="platWallet" height="180"></canvas></div>
+  <div class="chart-card"><h3>Receitas (Pocket)</h3><canvas id="platPocket" height="180"></canvas></div>
+  <div class="chart-card"><h3>Extrato</h3><canvas id="platExtrato" height="180"></canvas></div>
+  <div class="chart-card"><h3>Saque (fluxo)</h3><canvas id="platSaque" height="180"></canvas></div>
+</div>
 
-  <div class="section-title">KPIs — Maio/2026 (último mês)</div>
-  <div class="grid-kpi">
-    <div class="kpi"><div class="label">🥇 Wallet / Saldo</div><div class="value">171.805</div><div class="delta neg">▼ -6% vs Mar/26</div></div>
-    <div class="kpi"><div class="label">🥈 Receitas (Pocket)</div><div class="value">40.646</div><div class="delta neu">→ Estável</div></div>
-    <div class="kpi"><div class="label">🥉 Extrato</div><div class="value">38.606</div><div class="delta neg">▼ -7% vs Mar/26</div></div>
-    <div class="kpi"><div class="label">4️⃣ Movimentações do Mês</div><div class="value">13.953</div><div class="delta neg">▼ -7% vs Mar/26</div></div>
-    <div class="kpi"><div class="label">5️⃣ Hotmart Card</div><div class="value">11.492</div><div class="delta neg">▼ -15% vs Mar/26</div></div>
-    <div class="kpi"><div class="label">6️⃣ Histórico de Saque</div><div class="value">9.490</div><div class="delta neg">▼ -6% vs Mar/26</div></div>
-    <div class="kpi"><div class="label">7️⃣ Antecipação</div><div class="value">5.490</div><div class="delta neu">→ -4% vs Mar/26</div></div>
-    <div class="kpi"><div class="label">⚠️ KYC <span class="badge critical">CRÍTICO</span></div><div class="value">637</div><div class="delta neg">▼ -77% vs Mar/26</div></div>
-  </div>
+<div class="section-title">Tabela Completa — MAU por Funcionalidade (Últimos 3 Meses)</div>
+<div class="chart-full">
+  <table>
+    <thead>
+      <tr><th>#</th><th>Funcionalidade</th><th>Status</th><th class="num">Mar/26</th><th class="num">Abr/26</th><th class="num">Mai/26</th><th class="num">Δ 3m</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Wallet / Saldo</td><td><span class="badge warning">atenção</span></td><td class="num">182.793</td><td class="num">176.486</td><td class="num">171.805</td><td class="dn">-6%</td></tr>
+      <tr><td>2</td><td>Receitas (Pocket)</td><td><span class="badge ok">saudável</span></td><td class="num">40.666</td><td class="num">38.070</td><td class="num">40.646</td><td class="d0">0%</td></tr>
+      <tr><td>3</td><td>Extrato</td><td><span class="badge warning">atenção</span></td><td class="num">41.524</td><td class="num">38.901</td><td class="num">38.606</td><td class="dn">-7%</td></tr>
+      <tr><td>4</td><td>Movimentações do Mês</td><td><span class="badge warning">atenção</span></td><td class="num">15.081</td><td class="num">14.062</td><td class="num">13.953</td><td class="dn">-7%</td></tr>
+      <tr><td>5</td><td>Hotmart Card</td><td><span class="badge critical">crítico</span></td><td class="num">13.510</td><td class="num">11.097</td><td class="num">11.492</td><td class="dn">-15%</td></tr>
+      <tr><td>6</td><td>Histórico de Saque</td><td><span class="badge warning">atenção</span></td><td class="num">10.111</td><td class="num">9.452</td><td class="num">9.490</td><td class="dn">-6%</td></tr>
+      <tr><td>7</td><td>Antecipação</td><td><span class="badge ok">saudável</span></td><td class="num">5.704</td><td class="num">5.216</td><td class="num">5.490</td><td class="d0">-4%</td></tr>
+      <tr><td>8</td><td>KYC</td><td><span class="badge critical">crítico</span></td><td class="num">2.810</td><td class="num">1.441</td><td class="num">637</td><td class="dn">-77%</td></tr>
+      <tr><td>9</td><td>Saque (fluxo)</td><td><span class="badge warning">atenção</span></td><td class="num">2.212</td><td class="num">2.082</td><td class="num">1.987</td><td class="dn">-10%</td></tr>
+      <tr><td>10</td><td>Meus Badges (Journey)</td><td><span class="badge critical">crítico</span></td><td class="num">279</td><td class="num">87</td><td class="num">30</td><td class="dn">-89%</td></tr>
+    </tbody>
+  </table>
+</div>
 
-  <div class="section-title">Evolução MAU — Dez/2025 a Mai/2026</div>
-  <div class="chart-full">
-    <h3>Top 5 Funcionalidades — MAU Mensal</h3>
-    <canvas id="chartTop5" height="75"></canvas>
-  </div>
-
-  <div class="charts-grid-2">
-    <div class="chart-card">
-      <h3>Funcionalidades Secundárias (Mar–Mai/26)</h3>
-      <canvas id="chartSecondary" height="160"></canvas>
-    </div>
-    <div class="chart-card">
-      <h3>Funcionalidades em Alerta 🔴 (Mar–Mai/26)</h3>
-      <canvas id="chartAlert" height="160"></canvas>
-    </div>
-  </div>
-
-  <div class="section-title">Split por Plataforma — MAU Mensal Mar/Abr/Mai 2026</div>
-  <div class="charts-grid-4">
-    <div class="chart-card"><h3>Wallet / Saldo</h3><canvas id="platWallet" height="180"></canvas></div>
-    <div class="chart-card"><h3>Receitas (Pocket)</h3><canvas id="platPocket" height="180"></canvas></div>
-    <div class="chart-card"><h3>Extrato</h3><canvas id="platExtrato" height="180"></canvas></div>
-    <div class="chart-card"><h3>Saque (fluxo)</h3><canvas id="platSaque" height="180"></canvas></div>
-  </div>
-
-  <div class="section-title">Tabela Completa — MAU por Funcionalidade (Últimos 3 Meses)</div>
-  <div class="chart-full">
-    <table>
-      <thead>
-        <tr><th>#</th><th>Funcionalidade</th><th>Status</th><th class="num">Mar/26</th><th class="num">Abr/26</th><th class="num">Mai/26</th><th class="num">Δ 3m</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>1</td><td>Wallet / Saldo</td><td><span class="badge warning">atenção</span></td><td class="num">182.793</td><td class="num">176.486</td><td class="num">171.805</td><td class="dn">-6%</td></tr>
-        <tr><td>2</td><td>Receitas (Pocket)</td><td><span class="badge ok">saudável</span></td><td class="num">40.666</td><td class="num">38.070</td><td class="num">40.646</td><td class="d0">0%</td></tr>
-        <tr><td>3</td><td>Extrato</td><td><span class="badge warning">atenção</span></td><td class="num">41.524</td><td class="num">38.901</td><td class="num">38.606</td><td class="dn">-7%</td></tr>
-        <tr><td>4</td><td>Movimentações do Mês</td><td><span class="badge warning">atenção</span></td><td class="num">15.081</td><td class="num">14.062</td><td class="num">13.953</td><td class="dn">-7%</td></tr>
-        <tr><td>5</td><td>Hotmart Card</td><td><span class="badge critical">crítico</span></td><td class="num">13.510</td><td class="num">11.097</td><td class="num">11.492</td><td class="dn">-15%</td></tr>
-        <tr><td>6</td><td>Histórico de Saque</td><td><span class="badge warning">atenção</span></td><td class="num">10.111</td><td class="num">9.452</td><td class="num">9.490</td><td class="dn">-6%</td></tr>
-        <tr><td>7</td><td>Antecipação</td><td><span class="badge ok">saudável</span></td><td class="num">5.704</td><td class="num">5.216</td><td class="num">5.490</td><td class="d0">-4%</td></tr>
-        <tr><td>8</td><td>KYC</td><td><span class="badge critical">crítico</span></td><td class="num">2.810</td><td class="num">1.441</td><td class="num">637</td><td class="dn">-77%</td></tr>
-        <tr><td>9</td><td>Saque (fluxo)</td><td><span class="badge warning">atenção</span></td><td class="num">2.212</td><td class="num">2.082</td><td class="num">1.987</td><td class="dn">-10%</td></tr>
-        <tr><td>10</td><td>Meus Badges (Journey)</td><td><span class="badge critical">crítico</span></td><td class="num">279</td><td class="num">87</td><td class="num">30</td><td class="dn">-89%</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="footer">Hotmart App MAU Dashboard · Gerado em 02/06/2026 · Fonte: Datahub Hotmart</div>
-</div><!-- /dashboard -->
+<div class="footer">Hotmart App MAU Dashboard · Gerado em 02/06/2026 · Fonte: Datahub Hotmart (dh_sparkle + dh_hotmart_app_wallet)</div>
 
 <script>
-// ---- AUTH ----
-// Adicione usuários autorizados aqui (usuário: senha)
-const USERS = {
-  'hotmart': 'trust@2026',
-  'marco': 'trust@2026',
-  'diretoria': 'trust@2026'
-};
-const SESSION_KEY = 'hm_dash_user';
+const meses6 = ['Dez/25','Jan/26','Fev/26','Mar/26','Abr/26','Mai/26'];
+const meses3 = ['Mar/26','Abr/26','Mai/26'];
 
-document.getElementById('inp-pass').addEventListener('keydown', e => {
-  if (e.key === 'Enter') doLogin();
+new Chart(document.getElementById('chartTop5'), {
+  type: 'line',
+  data: {
+    labels: meses6,
+    datasets: [
+      { label: 'Wallet / Saldo', data: [149470,204660,182854,182793,176486,171805], borderColor: '#7c3aed', backgroundColor: 'rgba(124,58,237,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
+      { label: 'Receitas (Pocket)', data: [35744,44100,40906,40666,38070,40646], borderColor: '#06b6d4', backgroundColor: 'rgba(6,182,212,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
+      { label: 'Extrato', data: [35744,46428,42024,41524,38901,38606], borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
+      { label: 'Movimentações do Mês', data: [13569,17891,15694,15081,14062,13953], borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
+      { label: 'Hotmart Card', data: [11684,17224,14413,13510,11097,11492], borderColor: '#f43f5e', backgroundColor: 'rgba(244,63,94,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
+    ]
+  },
+  options: { responsive: true, plugins: { legend: { labels: { color: '#ccc', font: { size: 12 } } } }, scales: { x: { ticks: { color: '#888' }, grid: { color: '#1e1e35' } }, y: { ticks: { color: '#888', callback: v => v.toLocaleString('pt-BR') }, grid: { color: '#1e1e35' } } } }
 });
 
-function doLogin() {
-  const user = document.getElementById('inp-user').value.trim().toLowerCase();
-  const pass = document.getElementById('inp-pass').value;
-  const err  = document.getElementById('login-error');
+new Chart(document.getElementById('chartSecondary'), {
+  type: 'bar',
+  data: {
+    labels: meses3,
+    datasets: [
+      { label: 'Histórico de Saque', data: [10111,9452,9490], backgroundColor: '#7c3aed' },
+      { label: 'Antecipação', data: [5704,5216,5490], backgroundColor: '#06b6d4' },
+      { label: 'Saque (fluxo)', data: [2212,2082,1987], backgroundColor: '#f59e0b' },
+    ]
+  },
+  options: { responsive: true, plugins: { legend: { labels: { color: '#ccc', font: { size: 11 } } } }, scales: { x: { ticks: { color: '#888' }, grid: { color: '#1e1e35' } }, y: { ticks: { color: '#888', callback: v => v.toLocaleString('pt-BR') }, grid: { color: '#1e1e35' } } } }
+});
 
-  if (USERS[user] && USERS[user] === pass) {
-    err.style.display = 'none';
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ user, time: Date.now() }));
-    showDashboard(user);
-  } else {
-    err.style.display = 'block';
-    document.getElementById('inp-pass').value = '';
-    document.getElementById('inp-pass').focus();
-  }
-}
+new Chart(document.getElementById('chartAlert'), {
+  type: 'line',
+  data: {
+    labels: meses3,
+    datasets: [
+      { label: 'KYC', data: [2810,1441,637], borderColor: '#ff4444', backgroundColor: 'rgba(255,68,68,0.1)', tension: 0.4, fill: true, pointRadius: 6 },
+      { label: 'Meus Badges', data: [279,87,30], borderColor: '#ff8c00', backgroundColor: 'rgba(255,140,0,0.1)', tension: 0.4, fill: true, pointRadius: 6 },
+      { label: 'Hotmart Card', data: [13510,11097,11492], borderColor: '#f43f5e', backgroundColor: 'rgba(244,63,94,0.08)', tension: 0.4, fill: true, pointRadius: 6 },
+    ]
+  },
+  options: { responsive: true, plugins: { legend: { labels: { color: '#ccc', font: { size: 11 } } } }, scales: { x: { ticks: { color: '#888' }, grid: { color: '#1e1e35' } }, y: { ticks: { color: '#888', callback: v => v.toLocaleString('pt-BR') }, grid: { color: '#1e1e35' } } } }
+});
 
-function doLogout() {
-  sessionStorage.removeItem(SESSION_KEY);
-  document.getElementById('dashboard').style.display = 'none';
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('inp-pass').value = '';
-}
-
-function checkAuth() {
-  const saved = sessionStorage.getItem(SESSION_KEY);
-  if (saved) {
-    const s = JSON.parse(saved);
-    if (Date.now() - s.time < 8 * 60 * 60 * 1000) {
-      showDashboard(s.user);
-    } else {
-      sessionStorage.removeItem(SESSION_KEY);
-    }
-  }
-}
-
-function showDashboard(name) {
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('dashboard').style.display = 'block';
-  document.getElementById('user-pill').textContent = '👤 ' + name + ' · Sair';
-  initCharts();
-}
-
-// ---- CHARTS ----
-let chartsInit = false;
-function initCharts() {
-  if (chartsInit) return;
-  chartsInit = true;
-
-  const meses6 = ['Dez/25','Jan/26','Fev/26','Mar/26','Abr/26','Mai/26'];
-  const meses3 = ['Mar/26','Abr/26','Mai/26'];
-
-  new Chart(document.getElementById('chartTop5'), {
-    type: 'line',
-    data: {
-      labels: meses6,
-      datasets: [
-        { label: 'Wallet / Saldo', data: [149470,204660,182854,182793,176486,171805], borderColor: '#7c3aed', backgroundColor: 'rgba(124,58,237,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
-        { label: 'Receitas (Pocket)', data: [35744,44100,40906,40666,38070,40646], borderColor: '#06b6d4', backgroundColor: 'rgba(6,182,212,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
-        { label: 'Extrato', data: [35744,46428,42024,41524,38901,38606], borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
-        { label: 'Movimentações do Mês', data: [13569,17891,15694,15081,14062,13953], borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
-        { label: 'Hotmart Card', data: [11684,17224,14413,13510,11097,11492], borderColor: '#f43f5e', backgroundColor: 'rgba(244,63,94,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
-      ]
-    },
-    options: { responsive: true, plugins: { legend: { labels: { color: '#ccc', font: { size: 12 } } } }, scales: { x: { ticks: { color: '#888' }, grid: { color: '#1e1e35' } }, y: { ticks: { color: '#888', callback: v => v.toLocaleString('pt-BR') }, grid: { color: '#1e1e35' } } } }
-  });
-
-  new Chart(document.getElementById('chartSecondary'), {
+function makePlatformChart(id, androidData, iosData) {
+  new Chart(document.getElementById(id), {
     type: 'bar',
     data: {
       labels: meses3,
       datasets: [
-        { label: 'Histórico de Saque', data: [10111,9452,9490], backgroundColor: '#7c3aed' },
-        { label: 'Antecipação', data: [5704,5216,5490], backgroundColor: '#06b6d4' },
-        { label: 'Saque (fluxo)', data: [2212,2082,1987], backgroundColor: '#f59e0b' },
+        { label: '🤖 Android', data: androidData, backgroundColor: '#3ddc84' },
+        { label: '🍎 iOS', data: iosData, backgroundColor: '#666' },
       ]
     },
-    options: { responsive: true, plugins: { legend: { labels: { color: '#ccc', font: { size: 11 } } } }, scales: { x: { ticks: { color: '#888' }, grid: { color: '#1e1e35' } }, y: { ticks: { color: '#888', callback: v => v.toLocaleString('pt-BR') }, grid: { color: '#1e1e35' } } } }
+    options: { responsive: true, plugins: { legend: { labels: { color: '#ccc', font: { size: 10 }, boxWidth: 12 }, position: 'bottom' } }, scales: { x: { ticks: { color: '#888', font: { size: 10 } }, grid: { color: '#1e1e35' } }, y: { ticks: { color: '#888', font: { size: 10 }, callback: v => (v/1000).toFixed(0)+'k' }, grid: { color: '#1e1e35' } } } }
   });
-
-  new Chart(document.getElementById('chartAlert'), {
-    type: 'line',
-    data: {
-      labels: meses3,
-      datasets: [
-        { label: 'KYC', data: [2810,1441,637], borderColor: '#ff4444', backgroundColor: 'rgba(255,68,68,0.1)', tension: 0.4, fill: true, pointRadius: 6 },
-        { label: 'Meus Badges', data: [279,87,30], borderColor: '#ff8c00', backgroundColor: 'rgba(255,140,0,0.1)', tension: 0.4, fill: true, pointRadius: 6 },
-        { label: 'Hotmart Card', data: [13510,11097,11492], borderColor: '#f43f5e', backgroundColor: 'rgba(244,63,94,0.08)', tension: 0.4, fill: true, pointRadius: 6 },
-      ]
-    },
-    options: { responsive: true, plugins: { legend: { labels: { color: '#ccc', font: { size: 11 } } } }, scales: { x: { ticks: { color: '#888' }, grid: { color: '#1e1e35' } }, y: { ticks: { color: '#888', callback: v => v.toLocaleString('pt-BR') }, grid: { color: '#1e1e35' } } } }
-  });
-
-  function makePlatformChart(id, androidData, iosData) {
-    new Chart(document.getElementById(id), {
-      type: 'bar',
-      data: {
-        labels: meses3,
-        datasets: [
-          { label: '🤖 Android', data: androidData, backgroundColor: '#3ddc84' },
-          { label: '🍎 iOS', data: iosData, backgroundColor: '#666' },
-        ]
-      },
-      options: { responsive: true, plugins: { legend: { labels: { color: '#ccc', font: { size: 10 }, boxWidth: 12 }, position: 'bottom' } }, scales: { x: { ticks: { color: '#888', font: { size: 10 } }, grid: { color: '#1e1e35' } }, y: { ticks: { color: '#888', font: { size: 10 }, callback: v => (v/1000).toFixed(0)+'k' }, grid: { color: '#1e1e35' } } } }
-    });
-  }
-
-  makePlatformChart('platWallet',  [105541,102133,98205], [79128,76079,75270]);
-  makePlatformChart('platPocket',  [17814,17149,19716],   [23365,21435,21547]);
-  makePlatformChart('platExtrato', [21490,20450,19825],   [20313,18704,19015]);
-  makePlatformChart('platSaque',   [539,499,463],         [1679,1592,1531]);
 }
 
-// Init
-checkAuth();
+makePlatformChart('platWallet',  [105541,102133,98205], [79128,76079,75270]);
+makePlatformChart('platPocket',  [17814,17149,19716],   [23365,21435,21547]);
+makePlatformChart('platExtrato', [21490,20450,19825],   [20313,18704,19015]);
+makePlatformChart('platSaque',   [539,499,463],         [1679,1592,1531]);
 </script>
 </body>
 </html>
