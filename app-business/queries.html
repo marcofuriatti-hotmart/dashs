@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Queries SQL — MAU Dashboard</title>
+<script src="auth.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f1a; color: #e0e0e0; padding: 24px; }
+  h1 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #888; margin-bottom: 28px; }
+  .nav { display: flex; gap: 8px; margin-bottom: 28px; }
+  .nav a { font-size: 13px; padding: 6px 16px; border-radius: 20px; text-decoration: none; border: 1px solid #2a2a40; color: #aaa; transition: all 0.2s; }
+  .nav a:hover { border-color: #7c3aed; color: #fff; }
+  .nav a.active { background: #7c3aed; border-color: #7c3aed; color: #fff; }
+  .section-title { font-size: 15px; font-weight: 700; color: #fff; margin: 28px 0 14px; border-left: 3px solid #7c3aed; padding-left: 12px; }
+  .query-card { background: #1a1a2e; border-radius: 12px; padding: 20px; border: 1px solid #2a2a40; margin-bottom: 18px; }
+  .query-card h3 { font-size: 14px; color: #fff; margin-bottom: 6px; font-weight: 600; }
+  .query-card .desc { font-size: 12px; color: #888; margin-bottom: 14px; line-height: 1.5; }
+  .query-card .meta { font-size: 11px; color: #666; margin-bottom: 10px; display: flex; gap: 16px; flex-wrap: wrap; }
+  .query-card .meta span { display: inline-flex; align-items: center; gap: 4px; }
+  .query-card pre { background: #12122a; border-radius: 8px; padding: 16px; overflow-x: auto; font-size: 12px; line-height: 1.6; color: #d4d4d4; border: 1px solid #2a2a40; }
+  .query-card code { font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace; }
+  .copy-btn { float: right; font-size: 11px; padding: 4px 10px; border-radius: 6px; background: #2a2a40; color: #aaa; border: 1px solid #3a3a50; cursor: pointer; transition: all 0.2s; }
+  .copy-btn:hover { background: #7c3aed; color: #fff; border-color: #7c3aed; }
+  .tag { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 12px; background: #2a2a40; color: #aaa; margin-right: 6px; }
+  .tag.sparkle { background: #1e3a5f; color: #60a5fa; }
+  .tag.wallet { background: #1e3f2e; color: #4ade80; }
+  .footer { text-align: center; font-size: 11px; color: #444; margin-top: 32px; padding-top: 16px; border-top: 1px solid #2a2a40; }
+</style>
+</head>
+<body>
+
+<h1>📝 Queries SQL — MAU Dashboard</h1>
+<div class="subtitle">Queries utilizadas para alimentar o dashboard de MAU do Hotmart App · Datasource: DH_ATHENA (Astrobox)</div>
+
+<div class="nav">
+  <a href="index.html">📊 Dashboard</a>
+  <a href="queries.html" class="active">📝 Queries SQL</a>
+</div>
+
+<div class="section-title">Informações de Acesso</div>
+<div class="query-card">
+  <h3>Como executar</h3>
+  <div class="desc">
+    Todas as queries abaixo são executadas no <strong>Astrobox</strong> (plataforma de dados Hotmart) usando o datasource <strong>DH_ATHENA</strong>.<br>
+    Acesse: <a href="https://astrobox.hotmart.com" style="color:#7c3aed;">astrobox.hotmart.com</a> → Selecione o datasource <code>DH_ATHENA</code> → Cole a query.<br><br>
+    Os parâmetros de data (<code>:begin</code> e <code>:end</code>) devem ser substituídos pelos valores desejados no formato <code>'YYYY-MM-DD'</code>.
+  </div>
+</div>
+
+<div class="section-title">MAU via Sparkle (eventos de UI do app)</div>
+
+<div class="query-card">
+  <h3>1. MAU — Wallet, Pocket, Histórico de Saque e Saque (fluxo)</h3>
+  <div class="desc">Retorna o MAU (Monthly Active Users) das funcionalidades principais do app, agrupado por mês e label de evento.</div>
+  <div class="meta">
+    <span><span class="tag sparkle">dh_sparkle</span></span>
+    <span>📊 Tabela: <code>dh_sparkle.ui_view_view_open</code></span>
+    <span>👤 User ID: <code>"user.id_security"</code></span>
+  </div>
+  <button class="copy-btn" onclick="copyQuery(this)">📋 Copiar</button>
+  <pre><code>SELECT
+  DATE_TRUNC('month', CAST(hub_transaction_date AS DATE)) as mes,
+  label,
+  COUNT(DISTINCT "user.id_security") as mau
+FROM dh_sparkle.ui_view_view_open
+WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-07-31'
+  AND label IN (
+    'open_wallet',
+    'open_pocket',
+    'withdraw_history_open',
+    'withdraw_cash_account_confirm',
+    'withdraw_cash_confirmed_order'
+  )
+GROUP BY 1, 2
+ORDER BY 1, 2</code></pre>
+</div>
+
+<div class="query-card">
+  <h3>2. MAU por Plataforma (Android/iOS) — Wallet, Pocket, Saque</h3>
+  <div class="desc">Split de MAU por plataforma mobile para as funcionalidades que possuem o campo device.platform na sparkle.</div>
+  <div class="meta">
+    <span><span class="tag sparkle">dh_sparkle</span></span>
+    <span>📊 Tabela: <code>dh_sparkle.ui_view_view_open</code></span>
+    <span>📱 Platform: <code>"device.platform"</code></span>
+  </div>
+  <button class="copy-btn" onclick="copyQuery(this)">📋 Copiar</button>
+  <pre><code>SELECT
+  DATE_TRUNC('month', CAST(hub_transaction_date AS DATE)) as mes,
+  label,
+  "device.platform" as platform,
+  COUNT(DISTINCT "user.id_security") as mau
+FROM dh_sparkle.ui_view_view_open
+WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-07-31'
+  AND label IN (
+    'open_wallet',
+    'open_pocket',
+    'withdraw_cash_account_confirm',
+    'withdraw_cash_confirmed_order'
+  )
+  AND "device.platform" IN ('ANDROID', 'IOS')
+GROUP BY 1, 2, 3
+ORDER BY 1, 2, 3</code></pre>
+</div>
+
+<div class="section-title">MAU via dh_hotmart_app_wallet (tabelas específicas)</div>
+
+<div class="query-card">
+  <h3>3. MAU — Extrato (Statement)</h3>
+  <div class="desc">Usuários únicos que visualizaram o extrato no app.</div>
+  <div class="meta">
+    <span><span class="tag wallet">dh_hotmart_app_wallet</span></span>
+    <span>📊 Tabela: <code>dh_hotmart_app_wallet.statement_view</code></span>
+    <span>👤 User ID: <code>ucode</code></span>
+  </div>
+  <button class="copy-btn" onclick="copyQuery(this)">📋 Copiar</button>
+  <pre><code>SELECT
+  DATE_TRUNC('month', CAST(hub_transaction_date AS DATE)) as mes,
+  COUNT(DISTINCT ucode) as mau
+FROM dh_hotmart_app_wallet.statement_view
+WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-07-31'
+GROUP BY 1
+ORDER BY 1</code></pre>
+</div>
+
+<div class="query-card">
+  <h3>4. MAU — Extrato por Plataforma (Android/iOS)</h3>
+  <div class="desc">Split de extrato por plataforma mobile.</div>
+  <div class="meta">
+    <span><span class="tag wallet">dh_hotmart_app_wallet</span></span>
+    <span>📊 Tabela: <code>dh_hotmart_app_wallet.statement_view</code></span>
+    <span>📱 Platform: <code>platform</code></span>
+  </div>
+  <button class="copy-btn" onclick="copyQuery(this)">📋 Copiar</button>
+  <pre><code>SELECT
+  DATE_TRUNC('month', CAST(hub_transaction_date AS DATE)) as mes,
+  platform,
+  COUNT(DISTINCT ucode) as mau
+FROM dh_hotmart_app_wallet.statement_view
+WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-07-31'
+  AND platform IN ('IOS', 'ANDROID')
+GROUP BY 1, 2
+ORDER BY 1, 2</code></pre>
+</div>
+
+<div class="query-card">
+  <h3>5. MAU — Movimentações do Mês (Transactions)</h3>
+  <div class="desc">Usuários únicos que visualizaram movimentações do mês no app.</div>
+  <div class="meta">
+    <span><span class="tag wallet">dh_hotmart_app_wallet</span></span>
+    <span>📊 Tabela: <code>dh_hotmart_app_wallet.transactions_view</code></span>
+  </div>
+  <button class="copy-btn" onclick="copyQuery(this)">📋 Copiar</button>
+  <pre><code>SELECT
+  DATE_TRUNC('month', CAST(hub_transaction_date AS DATE)) as mes,
+  COUNT(DISTINCT ucode) as mau
+FROM dh_hotmart_app_wallet.transactions_view
+WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-07-31'
+GROUP BY 1
+ORDER BY 1</code></pre>
+</div>
+
+<div class="query-card">
+  <h3>6. MAU — Hotmart Card</h3>
+  <div class="desc">Usuários únicos que acessaram a seção Hotmart Card no app.</div>
+  <div class="meta">
+    <span><span class="tag wallet">dh_hotmart_app_wallet</span></span>
+    <span>📊 Tabela: <code>dh_hotmart_app_wallet.hotcard_view</code></span>
+  </div>
+  <button class="copy-btn" onclick="copyQuery(this)">📋 Copiar</button>
+  <pre><code>SELECT
+  DATE_TRUNC('month', CAST(hub_transaction_date AS DATE)) as mes,
+  COUNT(DISTINCT ucode) as mau
+FROM dh_hotmart_app_wallet.hotcard_view
+WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-07-31'
+GROUP BY 1
+ORDER BY 1</code></pre>
+</div>
+
+<div class="query-card">
+  <h3>7. MAU — Antecipação (Payment Schedule)</h3>
+  <div class="desc">Usuários únicos que acessaram a funcionalidade de antecipação unificada no app.</div>
+  <div class="meta">
+    <span><span class="tag wallet">dh_hotmart_app_wallet</span></span>
+    <span>📊 Tabela: <code>dh_hotmart_app_wallet.payment_schedule_view</code></span>
+  </div>
+  <button class="copy-btn" onclick="copyQuery(this)">📋 Copiar</button>
+  <pre><code>SELECT
+  DATE_TRUNC('month', CAST(hub_transaction_date AS DATE)) as mes,
+  COUNT(DISTINCT ucode) as mau
+FROM dh_hotmart_app_wallet.payment_schedule_view
+WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-07-31'
+GROUP BY 1
+ORDER BY 1</code></pre>
+</div>
+
+<div class="query-card">
+  <h3>8. MAU — KYC (Verificação de Identidade)</h3>
+  <div class="desc">Usuários únicos que passaram pelo fluxo de KYC (verificação para solicitar cartão Hotmart).</div>
+  <div class="meta">
+    <span><span class="tag wallet">dh_hotmart_app_wallet</span></span>
+    <span>📊 Tabela: <code>dh_hotmart_app_wallet.kyc_view</code></span>
+  </div>
+  <button class="copy-btn" onclick="copyQuery(this)">📋 Copiar</button>
+  <pre><code>SELECT
+  DATE_TRUNC('month', CAST(hub_transaction_date AS DATE)) as mes,
+  COUNT(DISTINCT ucode) as mau
+FROM dh_hotmart_app_wallet.kyc_view
+WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-07-31'
+GROUP BY 1
+ORDER BY 1</code></pre>
+</div>
+
+<div class="query-card">
+  <h3>9. MAU — Meus Badges / Journey</h3>
+  <div class="desc">Usuários únicos que acessaram a seção de badges/jornada no app.</div>
+  <div class="meta">
+    <span><span class="tag wallet">dh_hotmart_app_wallet</span></span>
+    <span>📊 Tabela: <code>dh_hotmart_app_wallet.journey_view</code></span>
+  </div>
+  <button class="copy-btn" onclick="copyQuery(this)">📋 Copiar</button>
+  <pre><code>SELECT
+  DATE_TRUNC('month', CAST(hub_transaction_date AS DATE)) as mes,
+  COUNT(DISTINCT ucode) as mau
+FROM dh_hotmart_app_wallet.journey_view
+WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-07-31'
+GROUP BY 1
+ORDER BY 1</code></pre>
+</div>
+
+<div class="section-title">Queries Auxiliares (Exploração)</div>
+
+<div class="query-card">
+  <h3>10. Descobrir todos os labels de evento do app</h3>
+  <div class="desc">Lista todos os eventos de UI registrados no app Hotmart. Útil para descobrir novas funcionalidades rastreáveis.</div>
+  <div class="meta">
+    <span><span class="tag sparkle">dh_sparkle</span></span>
+  </div>
+  <button class="copy-btn" onclick="copyQuery(this)">📋 Copiar</button>
+  <pre><code>SELECT DISTINCT label
+FROM dh_sparkle.ui_view_view_open
+WHERE hub_transaction_date >= '2026-07-01'
+ORDER BY label</code></pre>
+</div>
+
+<div class="query-card">
+  <h3>11. DAU (Daily Active Users) — Wallet vs Pocket</h3>
+  <div class="desc">Contagem diária de usuários únicos por funcionalidade. Útil para identificar padrões sazonais e anomalias.</div>
+  <div class="meta">
+    <span><span class="tag sparkle">dh_sparkle</span></span>
+  </div>
+  <button class="copy-btn" onclick="copyQuery(this)">📋 Copiar</button>
+  <pre><code>SELECT
+  COUNT(DISTINCT "user.id_security") as total,
+  label,
+  hub_transaction_date as data_evento
+FROM dh_sparkle.ui_view_view_open
+WHERE (label = 'open_wallet' OR label = 'open_pocket')
+  AND hub_transaction_date BETWEEN '2026-07-01' AND '2026-07-31'
+GROUP BY label, hub_transaction_date
+ORDER BY hub_transaction_date, label</code></pre>
+</div>
+
+<div class="section-title">Notas Técnicas</div>
+<div class="query-card">
+  <h3>Dicas de uso</h3>
+  <div class="desc">
+    <ul style="padding-left: 18px; line-height: 2;">
+      <li><strong>Tabelas sparkle</strong> usam <code>"user.id_security"</code> (com aspas duplas, campo com ponto no nome) como identificador único de usuário.</li>
+      <li><strong>Tabelas dh_hotmart_app_wallet</strong> usam <code>ucode</code> como identificador único de usuário.</li>
+      <li>O campo <code>hub_transaction_date</code> nas tabelas sparkle é <code>varchar</code> — precisa de <code>CAST AS DATE</code> para funções de data como <code>DATE_TRUNC</code>.</li>
+      <li>O campo <code>hub_transaction_date</code> nas tabelas wallet aceita filtro direto com string sem necessidade de CAST.</li>
+      <li>O campo <code>"device.platform"</code> na sparkle precisa de aspas duplas (tem ponto no nome). Valores: <code>ANDROID</code>, <code>IOS</code>.</li>
+      <li>O campo <code>platform</code> nas tabelas wallet é direto (sem aspas). Valores: <code>ANDROID</code>, <code>IOS</code>.</li>
+      <li><code>withdraw_history_open</code> retorna MAU=0 para iOS — evento não instrumentado no iOS. Para dados iOS de histórico de saque, usar <code>dh_api_report_vulcano.withdraw_history_show</code>.</li>
+      <li>Badges/Journey (<code>journey_view</code>) pode ter dados muito baixos — feature parcialmente desativada em períodos.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="footer">Queries SQL — MAU Dashboard · Atualizado em 04/08/2026 · Datasource: DH_ATHENA (Astrobox)<br>Responsável: Marco Túlio Furiatti — Development Manager, PU Trust</div>
+
+<script>
+function copyQuery(btn) {
+  const pre = btn.nextElementSibling;
+  const text = pre.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✅ Copiado!';
+    setTimeout(() => { btn.textContent = '📋 Copiar'; }, 2000);
+  });
+}
+</script>
+</body>
+</html>

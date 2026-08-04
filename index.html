@@ -3,241 +3,93 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hotmart App — MAU Dashboard</title>
+<title>Dashs — PU Trust · Engineering Analytics</title>
 <script src="auth.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f1a; color: #e0e0e0; padding: 24px; }
-  h1 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 4px; }
-  .subtitle { font-size: 13px; color: #888; margin-bottom: 28px; }
-  .section-title { font-size: 15px; font-weight: 700; color: #fff; margin: 28px 0 14px; border-left: 3px solid #7c3aed; padding-left: 12px; }
-  .grid-kpi { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 14px; margin-bottom: 28px; }
-  .kpi { background: #1a1a2e; border-radius: 12px; padding: 16px 18px; border: 1px solid #2a2a40; }
-  .kpi .label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
-  .kpi .value { font-size: 26px; font-weight: 700; color: #fff; }
-  .kpi .delta { font-size: 12px; margin-top: 5px; }
-  .kpi .info { font-size: 10px; color: #666; margin-top: 4px; font-style: italic; }
-  .neg { color: #ff6b6b; } .neu { color: #aaa; }
-  .badge { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 20px; margin-left: 5px; vertical-align: middle; }
-  .badge.critical { background: #ff4444; color: #fff; }
-  .badge.warning { background: #ff8c00; color: #fff; }
-  .badge.ok { background: #2ecc71; color: #fff; }
-  .charts-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
-  .charts-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
-  .chart-card { background: #1a1a2e; border-radius: 12px; padding: 18px; border: 1px solid #2a2a40; }
-  .chart-card h3 { font-size: 12px; color: #ccc; margin-bottom: 12px; font-weight: 600; }
-  .chart-full { background: #1a1a2e; border-radius: 12px; padding: 20px; border: 1px solid #2a2a40; margin-bottom: 18px; }
-  .chart-full h3 { font-size: 14px; color: #ccc; margin-bottom: 14px; font-weight: 600; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th { text-align: left; padding: 10px 12px; background: #12122a; color: #888; font-weight: 600; font-size: 11px; text-transform: uppercase; border-bottom: 1px solid #2a2a40; }
-  td { padding: 10px 12px; border-bottom: 1px solid #1e1e35; color: #ddd; }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: #1e1e35; }
-  td.num { text-align: right; font-variant-numeric: tabular-nums; }
-  td.dn { color: #ff6b6b; text-align: right; font-weight: 600; }
-  td.d0 { color: #aaa; text-align: right; }
-  .footer { text-align: center; font-size: 11px; color: #444; margin-top: 32px; padding-top: 16px; border-top: 1px solid #2a2a40; }
-  .footnote { font-size: 11px; color: #666; margin-top: 10px; font-style: italic; }
-  @media (max-width: 900px) {
-    .charts-grid-2 { grid-template-columns: 1fr; }
-    .charts-grid-4 { grid-template-columns: 1fr 1fr; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f1a; color: #e0e0e0; min-height: 100vh; padding: 48px 24px; }
+
+  .container { max-width: 960px; margin: 0 auto; }
+
+  .header { text-align: center; margin-bottom: 48px; }
+  .header h1 { font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 8px; letter-spacing: -0.5px; }
+  .header .subtitle { font-size: 14px; color: #888; line-height: 1.6; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+
+  .card {
+    background: #1a1a2e;
+    border: 1px solid #2a2a40;
+    border-radius: 16px;
+    padding: 28px 24px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
   }
+  .card:hover {
+    border-color: #7c3aed;
+    box-shadow: 0 8px 32px rgba(124, 58, 237, 0.15);
+    transform: translateY(-3px);
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--card-accent, #7c3aed), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .card:hover::before { opacity: 1; }
+
+  .card-icon { font-size: 32px; }
+  .card-title { font-size: 17px; font-weight: 700; color: #fff; }
+  .card-desc { font-size: 13px; color: #888; line-height: 1.6; }
+  .card-tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: #2a2a40;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    width: fit-content;
+  }
+
+  .footer { text-align: center; font-size: 11px; color: #444; margin-top: 60px; padding-top: 20px; border-top: 1px solid #2a2a40; }
+
+  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
-<h1>📱 Hotmart App — MAU Dashboard</h1>
-<div class="subtitle">🔄 Última atualização: 02/06/2026 · Período: Dez/2025 – Mai/2026 · Fonte: Datahub Hotmart</div>
-
-<div class="section-title">KPIs — Maio/2026 (último mês)</div>
-<div class="grid-kpi">
-  <div class="kpi"><div class="label">🥇 Wallet / Saldo</div><div class="value">171.805</div><div class="delta neg">▼ -6% vs Mar/26</div></div>
-  <div class="kpi"><div class="label">🥈 Receitas (Pocket)</div><div class="value">40.646</div><div class="delta neu">→ Estável</div></div>
-  <div class="kpi"><div class="label">🥉 Extrato</div><div class="value">38.606</div><div class="delta neg">▼ -7% vs Mar/26</div></div>
-  <div class="kpi"><div class="label">4️⃣ Movimentações do Mês</div><div class="value">13.953</div><div class="delta neg">▼ -7% vs Mar/26</div></div>
-  <div class="kpi"><div class="label">5️⃣ Hotmart Card</div><div class="value">11.492</div><div class="delta neg">▼ -15% vs Mar/26</div></div>
-  <div class="kpi"><div class="label">6️⃣ Histórico de Saque</div><div class="value">9.490</div><div class="delta neg">▼ -6% vs Mar/26</div></div>
-  <div class="kpi"><div class="label">7️⃣ Antecipação</div><div class="value">5.490</div><div class="delta neu">→ -4% vs Mar/26</div></div>
-  <div class="kpi"><div class="label">⚠️ KYC <span class="badge critical">CRÍTICO</span></div><div class="value">637</div><div class="delta neg">▼ -77% vs Mar/26</div><div class="info">Fluxo de solicitar cartão</div></div>
-  <div class="kpi"><div class="label">9️⃣ Saque (fluxo)</div><div class="value">1.987</div><div class="delta neg">▼ -10% vs Mar/26</div></div>
-  <div class="kpi"><div class="label">🔟 Meus Badges <span class="badge critical">CRÍTICO</span></div><div class="value">30</div><div class="delta neg">▼ -89% vs Mar/26</div></div>
-  <div class="kpi"><div class="label">— Hotlinks *</div><div class="value">—</div><div class="delta neu">Sem tracking</div><div class="info">* Sem eventos mapeados</div></div>
-</div>
-
-<div class="section-title">Evolução MAU — Dez/2025 a Mai/2026</div>
-<div class="chart-full">
-  <h3>Top 5 Funcionalidades — MAU Mensal</h3>
-  <canvas id="chartTop5" height="75"></canvas>
-</div>
-
-<div class="charts-grid-2">
-  <div class="chart-card">
-    <h3>Funcionalidades Secundárias — Dez/25 a Mai/26</h3>
-    <canvas id="chartSecondary" height="160"></canvas>
+<div class="container">
+  <div class="header">
+    <h1>📊 Dashs — Engineering Analytics</h1>
+    <div class="subtitle">PU Trust · Protective Products & Global Tax<br>Dashboards internos de acompanhamento</div>
   </div>
-  <div class="chart-card">
-    <h3>Funcionalidades em Alerta 🔴 — Dez/25 a Mai/26</h3>
-    <canvas id="chartAlert" height="160"></canvas>
+
+  <div class="grid">
+
+    <a class="card" href="app-business/" style="--card-accent: #7c3aed;">
+      <div class="card-icon">📱</div>
+      <div class="card-title">Hotmart App — MAU Dashboard</div>
+      <div class="card-desc">Monthly Active Users por funcionalidade do app (Wallet, Pocket, Extrato, Saque, Hotcard, KYC). Split por plataforma Android/iOS.</div>
+      <div class="card-tag">Dez/2025 – Mai/2026</div>
+    </a>
+
   </div>
+
+  <div class="footer">Engineering Analytics · PU Trust · Marco Túlio Furiatti</div>
 </div>
 
-<div class="section-title">% Representatividade — Cada funcionalidade no total de acessos</div>
-<div class="charts-grid-2">
-  <div class="chart-card">
-    <h3>Distribuição de Uso — Maio/2026</h3>
-    <canvas id="pieUsage" height="220"></canvas>
-  </div>
-  <div class="chart-card">
-    <h3>% Representatividade por Mês — Dez/25 a Mai/26</h3>
-    <canvas id="chartUsageStacked" height="220"></canvas>
-  </div>
-</div>
-
-<div class="section-title">Split por Plataforma — MAU Mensal Dez/25 a Mai/26</div>
-<div class="charts-grid-4">
-  <div class="chart-card"><h3>Wallet / Saldo</h3><canvas id="platWallet" height="180"></canvas></div>
-  <div class="chart-card"><h3>Receitas (Pocket)</h3><canvas id="platPocket" height="180"></canvas></div>
-  <div class="chart-card"><h3>Extrato</h3><canvas id="platExtrato" height="180"></canvas></div>
-  <div class="chart-card"><h3>Saque (fluxo)</h3><canvas id="platSaque" height="180"></canvas></div>
-</div>
-
-<div class="section-title">Tabela Completa — MAU por Funcionalidade (Dez/2025 – Mai/2026)</div>
-<div class="chart-full">
-  <table>
-    <thead>
-      <tr><th>#</th><th>Funcionalidade</th><th>Status</th><th class="num">Dez/25</th><th class="num">Jan/26</th><th class="num">Fev/26</th><th class="num">Mar/26</th><th class="num">Abr/26</th><th class="num">Mai/26</th><th class="num">Δ 6m</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>1</td><td>Wallet / Saldo</td><td><span class="badge warning">atenção</span></td><td class="num">149.470</td><td class="num">204.660</td><td class="num">182.854</td><td class="num">182.793</td><td class="num">176.486</td><td class="num">171.805</td><td class="dn">-16% vs jan</td></tr>
-      <tr><td>2</td><td>Receitas (Pocket)</td><td><span class="badge ok">saudável</span></td><td class="num">35.267</td><td class="num">43.548</td><td class="num">40.392</td><td class="num">40.666</td><td class="num">38.070</td><td class="num">40.646</td><td class="d0">estável</td></tr>
-      <tr><td>3</td><td>Extrato</td><td><span class="badge warning">atenção</span></td><td class="num">35.496</td><td class="num">46.148</td><td class="num">41.735</td><td class="num">41.524</td><td class="num">38.901</td><td class="num">38.606</td><td class="dn">-16% vs jan</td></tr>
-      <tr><td>4</td><td>Movimentações do Mês</td><td><span class="badge warning">atenção</span></td><td class="num">13.569</td><td class="num">17.891</td><td class="num">15.694</td><td class="num">15.081</td><td class="num">14.062</td><td class="num">13.953</td><td class="dn">-22% vs jan</td></tr>
-      <tr><td>5</td><td>Hotmart Card</td><td><span class="badge critical">crítico</span></td><td class="num">11.684</td><td class="num">17.224</td><td class="num">14.413</td><td class="num">13.510</td><td class="num">11.097</td><td class="num">11.492</td><td class="dn">-33% vs jan</td></tr>
-      <tr><td>6</td><td>Histórico de Saque</td><td><span class="badge warning">atenção</span></td><td class="num">8.473</td><td class="num">10.846</td><td class="num">9.926</td><td class="num">10.111</td><td class="num">9.452</td><td class="num">9.490</td><td class="dn">-12% vs jan</td></tr>
-      <tr><td>7</td><td>Antecipação</td><td><span class="badge ok">saudável</span></td><td class="num">5.306</td><td class="num">5.856</td><td class="num">5.498</td><td class="num">5.704</td><td class="num">5.216</td><td class="num">5.490</td><td class="d0">estável</td></tr>
-      <tr><td>8</td><td>KYC ¹</td><td><span class="badge critical">crítico</span></td><td class="num">2.770</td><td class="num">3.128</td><td class="num">2.813</td><td class="num">2.810</td><td class="num">1.441</td><td class="num">637</td><td class="dn">-80%</td></tr>
-      <tr><td>9</td><td>Saque (fluxo)</td><td><span class="badge warning">atenção</span></td><td class="num">2.451</td><td class="num">2.234</td><td class="num">2.204</td><td class="num">2.212</td><td class="num">2.082</td><td class="num">1.987</td><td class="dn">-19%</td></tr>
-      <tr><td>10</td><td>Meus Badges (Journey)</td><td><span class="badge critical">crítico</span></td><td class="num">231</td><td class="num">277</td><td class="num">262</td><td class="num">279</td><td class="num">87</td><td class="num">30</td><td class="dn">-89%</td></tr>
-      <tr><td>—</td><td>Hotlinks *</td><td><span class="badge warning">s/ tracking</span></td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="d0">—</td></tr>
-    </tbody>
-  </table>
-  <div class="footnote">¹ KYC = Fluxo de validação para solicitar cartão Hotmart<br>* Hotlinks não possui eventos de rastreamento mapeados atualmente</div>
-</div>
-
-<div class="footer">Hotmart App MAU Dashboard · Gerado em 02/06/2026 · Fonte: Datahub Hotmart (dh_sparkle + dh_hotmart_app_wallet)<br>Responsável pela coleta e disponibilização: Marco Túlio Furiatti — Development Manager, PU Trust</div>
-
-<script>
-const meses6 = ['Dez/25','Jan/26','Fev/26','Mar/26','Abr/26','Mai/26'];
-
-new Chart(document.getElementById('chartTop5'), {
-  type: 'line',
-  data: {
-    labels: meses6,
-    datasets: [
-      { label: 'Wallet / Saldo', data: [149470,204660,182854,182793,176486,171805], borderColor: '#7c3aed', backgroundColor: 'rgba(124,58,237,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
-      { label: 'Receitas (Pocket)', data: [35267,43548,40392,40666,38070,40646], borderColor: '#06b6d4', backgroundColor: 'rgba(6,182,212,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
-      { label: 'Extrato', data: [35496,46148,41735,41524,38901,38606], borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
-      { label: 'Movimentações do Mês', data: [13569,17891,15694,15081,14062,13953], borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
-      { label: 'Hotmart Card', data: [11684,17224,14413,13510,11097,11492], borderColor: '#f43f5e', backgroundColor: 'rgba(244,63,94,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
-    ]
-  },
-  options: { responsive: true, plugins: { legend: { labels: { color: '#ccc', font: { size: 12 } } } }, scales: { x: { ticks: { color: '#888' }, grid: { color: '#1e1e35' } }, y: { ticks: { color: '#888', callback: v => v.toLocaleString('pt-BR') }, grid: { color: '#1e1e35' } } } }
-});
-
-new Chart(document.getElementById('chartSecondary'), {
-  type: 'line',
-  data: {
-    labels: meses6,
-    datasets: [
-      { label: 'Histórico de Saque', data: [8473,10846,9926,10111,9452,9490], borderColor: '#7c3aed', backgroundColor: 'rgba(124,58,237,0.06)', tension: 0.4, fill: true, pointRadius: 4 },
-      { label: 'Antecipação', data: [5306,5856,5498,5704,5216,5490], borderColor: '#06b6d4', backgroundColor: 'rgba(6,182,212,0.06)', tension: 0.4, fill: true, pointRadius: 4 },
-      { label: 'Saque (fluxo)', data: [2451,2234,2204,2212,2082,1987], borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.06)', tension: 0.4, fill: true, pointRadius: 4 },
-    ]
-  },
-  options: { responsive: true, plugins: { legend: { labels: { color: '#ccc', font: { size: 11 } } } }, scales: { x: { ticks: { color: '#888' }, grid: { color: '#1e1e35' } }, y: { ticks: { color: '#888', callback: v => v.toLocaleString('pt-BR') }, grid: { color: '#1e1e35' } } } }
-});
-
-new Chart(document.getElementById('chartAlert'), {
-  type: 'line',
-  data: {
-    labels: meses6,
-    datasets: [
-      { label: 'KYC ¹', data: [2770,3128,2813,2810,1441,637], borderColor: '#ff4444', backgroundColor: 'rgba(255,68,68,0.1)', tension: 0.4, fill: true, pointRadius: 6 },
-      { label: 'Meus Badges', data: [231,277,262,279,87,30], borderColor: '#ff8c00', backgroundColor: 'rgba(255,140,0,0.1)', tension: 0.4, fill: true, pointRadius: 6 },
-      { label: 'Hotmart Card', data: [11684,17224,14413,13510,11097,11492], borderColor: '#f43f5e', backgroundColor: 'rgba(244,63,94,0.06)', tension: 0.4, fill: true, pointRadius: 4 },
-    ]
-  },
-  options: { responsive: true, plugins: { legend: { labels: { color: '#ccc', font: { size: 11 } } } }, scales: { x: { ticks: { color: '#888' }, grid: { color: '#1e1e35' } }, y: { ticks: { color: '#888', callback: v => v.toLocaleString('pt-BR') }, grid: { color: '#1e1e35' } } } }
-});
-
-function makePlatformChart(id, androidData, iosData) {
-  new Chart(document.getElementById(id), {
-    type: 'bar',
-    data: {
-      labels: meses6,
-      datasets: [
-        { label: '🤖 Android', data: androidData, backgroundColor: '#3ddc84' },
-        { label: '🍎 iOS', data: iosData, backgroundColor: '#666' },
-      ]
-    },
-    options: { responsive: true, plugins: { legend: { labels: { color: '#ccc', font: { size: 10 }, boxWidth: 12 }, position: 'bottom' } }, scales: { x: { ticks: { color: '#888', font: { size: 9 } }, grid: { color: '#1e1e35' } }, y: { ticks: { color: '#888', font: { size: 10 }, callback: v => (v/1000).toFixed(0)+'k' }, grid: { color: '#1e1e35' } } } }
-  });
-}
-
-makePlatformChart('platWallet',  [83502,117062,103775,105541,102133,98205], [67590,89595,80931,79128,76079,75270]);
-makePlatformChart('platPocket',  [14868,19338,17652,17814,17149,19716],     [20876,24762,23254,23365,21435,21547]);
-makePlatformChart('platExtrato', [17239,23618,21314,21490,20450,19825],     [18505,22810,20710,20313,18704,19015]);
-makePlatformChart('platSaque',   [583,523,519,539,499,463],                 [1887,1724,1696,1679,1592,1531]);
-
-// ---- PIE: representatividade Mai/26 ----
-const maiData = [171805,40646,38606,13953,11492,9490,5490,1987,637,30];
-const maiLabels = ['Wallet','Receitas','Extrato','Movim. Mês','Hotmart Card','Hist. Saque','Antecipação','Saque','KYC¹','Badges'];
-const maiColors = ['#7c3aed','#06b6d4','#f59e0b','#10b981','#f43f5e','#8b5cf6','#0ea5e9','#eab308','#ff4444','#ff8c00'];
-
-new Chart(document.getElementById('pieUsage'), {
-  type: 'doughnut',
-  data: {
-    labels: maiLabels,
-    datasets: [{ data: maiData, backgroundColor: maiColors, borderWidth: 0 }]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { position: 'right', labels: { color: '#ccc', font: { size: 11 }, padding: 10, boxWidth: 14 } },
-      tooltip: { callbacks: { label: function(ctx) { const total = ctx.dataset.data.reduce((a,b)=>a+b,0); const pct = ((ctx.parsed/total)*100).toFixed(1); return ' ' + ctx.label + ': ' + ctx.parsed.toLocaleString('pt-BR') + ' (' + pct + '%)'; } } }
-    }
-  }
-});
-
-// ---- STACKED BAR: % por mês ----
-const allMonths = [
-  [149470,35267,35496,13569,11684,8473,5306,2451,2770,231],
-  [204660,43548,46148,17891,17224,10846,5856,2234,3128,277],
-  [182854,40392,41735,15694,14413,9926,5498,2204,2813,262],
-  [182793,40666,41524,15081,13510,10111,5704,2212,2810,279],
-  [176486,38070,38901,14062,11097,9452,5216,2082,1441,87],
-  [171805,40646,38606,13953,11492,9490,5490,1987,637,30]
-];
-const pctData = allMonths.map(m => { const t = m.reduce((a,b)=>a+b,0); return m.map(v => parseFloat(((v/t)*100).toFixed(1))); });
-const stackedDatasets = maiLabels.map((label, i) => ({
-  label: label,
-  data: pctData.map(m => m[i]),
-  backgroundColor: maiColors[i],
-}));
-
-new Chart(document.getElementById('chartUsageStacked'), {
-  type: 'bar',
-  data: { labels: meses6, datasets: stackedDatasets },
-  options: {
-    responsive: true,
-    plugins: { legend: { labels: { color: '#ccc', font: { size: 10 }, boxWidth: 12 }, position: 'bottom' }, tooltip: { callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.parsed.y + '%' } } },
-    scales: {
-      x: { stacked: true, ticks: { color: '#888' }, grid: { color: '#1e1e35' } },
-      y: { stacked: true, max: 100, ticks: { color: '#888', callback: v => v + '%' }, grid: { color: '#1e1e35' } }
-    }
-  }
-});
-</script>
 </body>
 </html>

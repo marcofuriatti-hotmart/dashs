@@ -18,6 +18,10 @@
   .kpi .value { font-size: 26px; font-weight: 700; color: #fff; }
   .kpi .delta { font-size: 12px; margin-top: 5px; }
   .kpi .info { font-size: 10px; color: #666; margin-top: 4px; font-style: italic; }
+  .nav { display: flex; gap: 8px; margin-bottom: 28px; }
+  .nav a { font-size: 13px; padding: 6px 16px; border-radius: 20px; text-decoration: none; border: 1px solid #2a2a40; color: #aaa; transition: all 0.2s; }
+  .nav a:hover { border-color: #7c3aed; color: #fff; }
+  .nav a.active { background: #7c3aed; border-color: #7c3aed; color: #fff; }
   .neg { color: #ff6b6b; } .neu { color: #aaa; }
   .badge { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 20px; margin-left: 5px; vertical-align: middle; }
   .badge.critical { background: #ff4444; color: #fff; }
@@ -48,36 +52,41 @@
 <body>
 
 <h1>📱 Hotmart App — MAU Dashboard</h1>
-<div class="subtitle">🔄 Última atualização: 02/06/2026 · Período: Dez/2025 – Mai/2026 · Fonte: Datahub Hotmart</div>
+<div class="subtitle">🔄 Última atualização: 04/08/2026 · Período: Dez/2025 – Jul/2026* · Fonte: Datahub Hotmart<br><small>* Jul/2026 = mês parcial (dados até 04/08)</small></div>
 
-<div class="section-title">KPIs — Maio/2026 (último mês)</div>
+<div class="nav">
+  <a href="index.html" class="active">📊 Dashboard</a>
+  <a href="queries.html">📝 Queries SQL</a>
+</div>
+
+<div class="section-title">KPIs — Julho/2026* (último mês parcial)</div>
 <div class="grid-kpi">
-  <div class="kpi"><div class="label">🥇 Wallet / Saldo</div><div class="value">171.805</div><div class="delta neg">▼ -6% vs Mar/26</div></div>
-  <div class="kpi"><div class="label">🥈 Receitas (Pocket)</div><div class="value">40.646</div><div class="delta neu">→ Estável</div></div>
-  <div class="kpi"><div class="label">🥉 Extrato</div><div class="value">38.606</div><div class="delta neg">▼ -7% vs Mar/26</div></div>
-  <div class="kpi"><div class="label">4️⃣ Movimentações do Mês</div><div class="value">13.953</div><div class="delta neg">▼ -7% vs Mar/26</div></div>
-  <div class="kpi"><div class="label">5️⃣ Hotmart Card</div><div class="value">11.492</div><div class="delta neg">▼ -15% vs Mar/26</div></div>
-  <div class="kpi"><div class="label">6️⃣ Histórico de Saque</div><div class="value">9.490</div><div class="delta neg">▼ -6% vs Mar/26</div></div>
-  <div class="kpi"><div class="label">7️⃣ Antecipação</div><div class="value">5.490</div><div class="delta neu">→ -4% vs Mar/26</div></div>
-  <div class="kpi"><div class="label">⚠️ KYC <span class="badge critical">CRÍTICO</span></div><div class="value">637</div><div class="delta neg">▼ -77% vs Mar/26</div><div class="info">Fluxo de solicitar cartão</div></div>
-  <div class="kpi"><div class="label">9️⃣ Saque (fluxo)</div><div class="value">1.987</div><div class="delta neg">▼ -10% vs Mar/26</div></div>
-  <div class="kpi"><div class="label">🔟 Meus Badges <span class="badge critical">CRÍTICO</span></div><div class="value">30</div><div class="delta neg">▼ -89% vs Mar/26</div></div>
+  <div class="kpi"><div class="label">🥇 Wallet / Saldo</div><div class="value">120.725</div><div class="delta neg">▼ -17% vs Jun/26</div></div>
+  <div class="kpi"><div class="label">🥈 Receitas (Pocket)</div><div class="value">33.471</div><div class="delta neg">▼ -8% vs Jun/26</div></div>
+  <div class="kpi"><div class="label">🥉 Extrato</div><div class="value">26.776</div><div class="delta neg">▼ -15% vs Jun/26</div></div>
+  <div class="kpi"><div class="label">4️⃣ Movimentações do Mês</div><div class="value">10.217</div><div class="delta neg">▼ -9% vs Jun/26</div></div>
+  <div class="kpi"><div class="label">5️⃣ Hotmart Card</div><div class="value">8.444</div><div class="delta neg">▼ -12% vs Jun/26</div></div>
+  <div class="kpi"><div class="label">6️⃣ Histórico de Saque</div><div class="value">6.267</div><div class="delta neg">▼ -19% vs Jun/26</div></div>
+  <div class="kpi"><div class="label">7️⃣ Antecipação</div><div class="value">5.729</div><div class="delta neu">→ +13% vs Jun/26</div></div>
+  <div class="kpi"><div class="label">8️⃣ Saque (fluxo)</div><div class="value">1.766</div><div class="delta neg">▼ -7% vs Jun/26</div></div>
+  <div class="kpi"><div class="label">⚠️ KYC <span class="badge warning">RECUPERAÇÃO</span></div><div class="value">481</div><div class="delta neu">→ +10% vs Jun/26</div><div class="info">Fluxo de solicitar cartão</div></div>
+  <div class="kpi"><div class="label">🔟 Meus Badges <span class="badge ok">RECUPERAÇÃO</span></div><div class="value">723</div><div class="delta neu">→ Recuperação</div></div>
   <div class="kpi"><div class="label">— Hotlinks *</div><div class="value">—</div><div class="delta neu">Sem tracking</div><div class="info">* Sem eventos mapeados</div></div>
 </div>
 
-<div class="section-title">Evolução MAU — Dez/2025 a Mai/2026</div>
+<div class="section-title">Evolução MAU — Dez/2025 a Jul/2026*</div>
 <div class="chart-full">
-  <h3>Top 5 Funcionalidades — MAU Mensal</h3>
+    <h3>Top 5 Funcionalidades — MAU Mensal</h3>
   <canvas id="chartTop5" height="75"></canvas>
 </div>
 
 <div class="charts-grid-2">
   <div class="chart-card">
-    <h3>Funcionalidades Secundárias — Dez/25 a Mai/26</h3>
+    <h3>Funcionalidades Secundárias — Dez/25 a Jul/26*</h3>
     <canvas id="chartSecondary" height="160"></canvas>
   </div>
   <div class="chart-card">
-    <h3>Funcionalidades em Alerta 🔴 — Dez/25 a Mai/26</h3>
+    <h3>Funcionalidades em Alerta 🔴 — Dez/25 a Jul/26*</h3>
     <canvas id="chartAlert" height="160"></canvas>
   </div>
 </div>
@@ -85,16 +94,16 @@
 <div class="section-title">% Representatividade — Cada funcionalidade no total de acessos</div>
 <div class="charts-grid-2">
   <div class="chart-card">
-    <h3>Distribuição de Uso — Maio/2026</h3>
+    <h3>Distribuição de Uso — Jul/2026*</h3>
     <canvas id="pieUsage" height="220"></canvas>
   </div>
   <div class="chart-card">
-    <h3>% Representatividade por Mês — Dez/25 a Mai/26</h3>
+    <h3>% Representatividade por Mês — Dez/25 a Jul/26*</h3>
     <canvas id="chartUsageStacked" height="220"></canvas>
   </div>
 </div>
 
-<div class="section-title">Split por Plataforma — MAU Mensal Dez/25 a Mai/26</div>
+<div class="section-title">Split por Plataforma — MAU Mensal Dez/25 a Jul/26*</div>
 <div class="charts-grid-4">
   <div class="chart-card"><h3>Wallet / Saldo</h3><canvas id="platWallet" height="180"></canvas></div>
   <div class="chart-card"><h3>Receitas (Pocket)</h3><canvas id="platPocket" height="180"></canvas></div>
@@ -102,30 +111,30 @@
   <div class="chart-card"><h3>Saque (fluxo)</h3><canvas id="platSaque" height="180"></canvas></div>
 </div>
 
-<div class="section-title">Tabela Completa — MAU por Funcionalidade (Dez/2025 – Mai/2026)</div>
+<div class="section-title">Tabela Completa — MAU por Funcionalidade (Dez/2025 – Jul/2026*)</div>
 <div class="chart-full">
   <table>
     <thead>
-      <tr><th>#</th><th>Funcionalidade</th><th>Status</th><th class="num">Dez/25</th><th class="num">Jan/26</th><th class="num">Fev/26</th><th class="num">Mar/26</th><th class="num">Abr/26</th><th class="num">Mai/26</th><th class="num">Δ 6m</th></tr>
+      <tr><th>#</th><th>Funcionalidade</th><th>Status</th><th class="num">Dez/25</th><th class="num">Jan/26</th><th class="num">Fev/26</th><th class="num">Mar/26</th><th class="num">Abr/26</th><th class="num">Mai/26</th><th class="num">Jun/26</th><th class="num">Jul/26*</th><th class="num">Δ 8m</th></tr>
     </thead>
     <tbody>
-      <tr><td>1</td><td>Wallet / Saldo</td><td><span class="badge warning">atenção</span></td><td class="num">149.470</td><td class="num">204.660</td><td class="num">182.854</td><td class="num">182.793</td><td class="num">176.486</td><td class="num">171.805</td><td class="dn">-16% vs jan</td></tr>
-      <tr><td>2</td><td>Receitas (Pocket)</td><td><span class="badge ok">saudável</span></td><td class="num">35.267</td><td class="num">43.548</td><td class="num">40.392</td><td class="num">40.666</td><td class="num">38.070</td><td class="num">40.646</td><td class="d0">estável</td></tr>
-      <tr><td>3</td><td>Extrato</td><td><span class="badge warning">atenção</span></td><td class="num">35.496</td><td class="num">46.148</td><td class="num">41.735</td><td class="num">41.524</td><td class="num">38.901</td><td class="num">38.606</td><td class="dn">-16% vs jan</td></tr>
-      <tr><td>4</td><td>Movimentações do Mês</td><td><span class="badge warning">atenção</span></td><td class="num">13.569</td><td class="num">17.891</td><td class="num">15.694</td><td class="num">15.081</td><td class="num">14.062</td><td class="num">13.953</td><td class="dn">-22% vs jan</td></tr>
-      <tr><td>5</td><td>Hotmart Card</td><td><span class="badge critical">crítico</span></td><td class="num">11.684</td><td class="num">17.224</td><td class="num">14.413</td><td class="num">13.510</td><td class="num">11.097</td><td class="num">11.492</td><td class="dn">-33% vs jan</td></tr>
-      <tr><td>6</td><td>Histórico de Saque</td><td><span class="badge warning">atenção</span></td><td class="num">8.473</td><td class="num">10.846</td><td class="num">9.926</td><td class="num">10.111</td><td class="num">9.452</td><td class="num">9.490</td><td class="dn">-12% vs jan</td></tr>
-      <tr><td>7</td><td>Antecipação</td><td><span class="badge ok">saudável</span></td><td class="num">5.306</td><td class="num">5.856</td><td class="num">5.498</td><td class="num">5.704</td><td class="num">5.216</td><td class="num">5.490</td><td class="d0">estável</td></tr>
-      <tr><td>8</td><td>KYC ¹</td><td><span class="badge critical">crítico</span></td><td class="num">2.770</td><td class="num">3.128</td><td class="num">2.813</td><td class="num">2.810</td><td class="num">1.441</td><td class="num">637</td><td class="dn">-80%</td></tr>
-      <tr><td>9</td><td>Saque (fluxo)</td><td><span class="badge warning">atenção</span></td><td class="num">2.451</td><td class="num">2.234</td><td class="num">2.204</td><td class="num">2.212</td><td class="num">2.082</td><td class="num">1.987</td><td class="dn">-19%</td></tr>
-      <tr><td>10</td><td>Meus Badges (Journey)</td><td><span class="badge critical">crítico</span></td><td class="num">231</td><td class="num">277</td><td class="num">262</td><td class="num">279</td><td class="num">87</td><td class="num">30</td><td class="dn">-89%</td></tr>
-      <tr><td>—</td><td>Hotlinks *</td><td><span class="badge warning">s/ tracking</span></td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="d0">—</td></tr>
+      <tr><td>1</td><td>Wallet / Saldo</td><td><span class="badge warning">atenção</span></td><td class="num">149.470</td><td class="num">204.660</td><td class="num">182.854</td><td class="num">182.793</td><td class="num">176.486</td><td class="num">171.805</td><td class="num">145.436</td><td class="num">120.725</td><td class="dn">-41% vs jan</td></tr>
+      <tr><td>2</td><td>Receitas (Pocket)</td><td><span class="badge warning">atenção</span></td><td class="num">35.267</td><td class="num">43.548</td><td class="num">40.392</td><td class="num">40.666</td><td class="num">38.070</td><td class="num">40.646</td><td class="num">36.292</td><td class="num">33.471</td><td class="dn">-23% vs jan</td></tr>
+      <tr><td>3</td><td>Extrato</td><td><span class="badge warning">atenção</span></td><td class="num">35.496</td><td class="num">46.148</td><td class="num">41.735</td><td class="num">41.524</td><td class="num">38.901</td><td class="num">38.606</td><td class="num">31.457</td><td class="num">26.776</td><td class="dn">-42% vs jan</td></tr>
+      <tr><td>4</td><td>Movimentações do Mês</td><td><span class="badge warning">atenção</span></td><td class="num">13.569</td><td class="num">17.891</td><td class="num">15.694</td><td class="num">15.081</td><td class="num">14.062</td><td class="num">13.953</td><td class="num">11.227</td><td class="num">10.217</td><td class="dn">-43% vs jan</td></tr>
+      <tr><td>5</td><td>Hotmart Card</td><td><span class="badge warning">atenção</span></td><td class="num">11.684</td><td class="num">17.224</td><td class="num">14.413</td><td class="num">13.510</td><td class="num">11.097</td><td class="num">11.492</td><td class="num">9.627</td><td class="num">8.444</td><td class="dn">-51% vs jan</td></tr>
+      <tr><td>6</td><td>Histórico de Saque</td><td><span class="badge warning">atenção</span></td><td class="num">8.473</td><td class="num">10.846</td><td class="num">9.926</td><td class="num">10.111</td><td class="num">9.452</td><td class="num">9.490</td><td class="num">7.691</td><td class="num">6.267</td><td class="dn">-42% vs jan</td></tr>
+      <tr><td>7</td><td>Antecipação</td><td><span class="badge ok">saudável</span></td><td class="num">5.306</td><td class="num">5.856</td><td class="num">5.498</td><td class="num">5.704</td><td class="num">5.216</td><td class="num">5.490</td><td class="num">5.061</td><td class="num">5.729</td><td class="d0">estável</td></tr>
+      <tr><td>8</td><td>KYC ¹</td><td><span class="badge warning">recuperação</span></td><td class="num">2.770</td><td class="num">3.128</td><td class="num">2.813</td><td class="num">2.810</td><td class="num">1.441</td><td class="num">637</td><td class="num">439</td><td class="num">481</td><td class="dn">-85%</td></tr>
+      <tr><td>9</td><td>Saque (fluxo)</td><td><span class="badge warning">atenção</span></td><td class="num">2.451</td><td class="num">2.234</td><td class="num">2.204</td><td class="num">2.212</td><td class="num">2.082</td><td class="num">1.987</td><td class="num">1.906</td><td class="num">1.766</td><td class="dn">-21%</td></tr>
+      <tr><td>10</td><td>Meus Badges (Journey)</td><td><span class="badge ok">recuperação</span></td><td class="num">231</td><td class="num">277</td><td class="num">262</td><td class="num">279</td><td class="num">87</td><td class="num">30</td><td class="num">8</td><td class="num">723</td><td class="d0">recuperação</td></tr>
+      <tr><td>—</td><td>Hotlinks *</td><td><span class="badge warning">s/ tracking</span></td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="d0">—</td></tr>
     </tbody>
   </table>
-  <div class="footnote">¹ KYC = Fluxo de validação para solicitar cartão Hotmart<br>* Hotlinks não possui eventos de rastreamento mapeados atualmente</div>
+  <div class="footnote">¹ KYC = Fluxo de validação para solicitar cartão Hotmart<br>* Jul/2026 = mês parcial (dados até 04/08/2026). Hotlinks não possui eventos de rastreamento mapeados atualmente</div>
 </div>
 
-<div class="footer">Hotmart App MAU Dashboard · Gerado em 02/06/2026 · Fonte: Datahub Hotmart (dh_sparkle + dh_hotmart_app_wallet)<br>Responsável pela coleta e disponibilização: Marco Túlio Furiatti — Development Manager, PU Trust</div>
+<div class="footer">Hotmart App MAU Dashboard · Gerado em 04/08/2026 · Fonte: Datahub Hotmart (dh_sparkle + dh_hotmart_app_wallet)<br>Responsável pela coleta e disponibilização: Marco Túlio Furiatti — Development Manager, PU Trust</div>
 
 <script>
 const meses6 = ['Dez/25','Jan/26','Fev/26','Mar/26','Abr/26','Mai/26'];
