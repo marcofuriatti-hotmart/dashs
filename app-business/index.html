@@ -137,18 +137,18 @@
 <div class="footer">Hotmart App MAU Dashboard · Gerado em 04/08/2026 · Fonte: Datahub Hotmart (dh_sparkle + dh_hotmart_app_wallet)<br>Responsável pela coleta e disponibilização: Marco Túlio Furiatti — Development Manager, PU Trust</div>
 
 <script>
-const meses6 = ['Dez/25','Jan/26','Fev/26','Mar/26','Abr/26','Mai/26'];
+const meses = ['Dez/25','Jan/26','Fev/26','Mar/26','Abr/26','Mai/26','Jun/26','Jul/26*'];
 
 new Chart(document.getElementById('chartTop5'), {
   type: 'line',
   data: {
-    labels: meses6,
+    labels: meses,
     datasets: [
-      { label: 'Wallet / Saldo', data: [149470,204660,182854,182793,176486,171805], borderColor: '#7c3aed', backgroundColor: 'rgba(124,58,237,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
-      { label: 'Receitas (Pocket)', data: [35267,43548,40392,40666,38070,40646], borderColor: '#06b6d4', backgroundColor: 'rgba(6,182,212,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
-      { label: 'Extrato', data: [35496,46148,41735,41524,38901,38606], borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
-      { label: 'Movimentações do Mês', data: [13569,17891,15694,15081,14062,13953], borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
-      { label: 'Hotmart Card', data: [11684,17224,14413,13510,11097,11492], borderColor: '#f43f5e', backgroundColor: 'rgba(244,63,94,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
+      { label: 'Wallet / Saldo', data: [149470,204660,182854,182793,176486,171805,145436,120725], borderColor: '#7c3aed', backgroundColor: 'rgba(124,58,237,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
+      { label: 'Receitas (Pocket)', data: [35267,43548,40392,40666,38070,40646,36292,33471], borderColor: '#06b6d4', backgroundColor: 'rgba(6,182,212,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
+      { label: 'Extrato', data: [35496,46148,41735,41524,38901,38606,31457,26776], borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
+      { label: 'Movimentações do Mês', data: [13569,17891,15694,15081,14062,13953,11227,10217], borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
+      { label: 'Hotmart Card', data: [11684,17224,14413,13510,11097,11492,9627,8444], borderColor: '#f43f5e', backgroundColor: 'rgba(244,63,94,0.08)', tension: 0.4, fill: true, pointRadius: 4 },
     ]
   },
   options: { responsive: true, plugins: { legend: { labels: { color: '#ccc', font: { size: 12 } } } }, scales: { x: { ticks: { color: '#888' }, grid: { color: '#1e1e35' } }, y: { ticks: { color: '#888', callback: v => v.toLocaleString('pt-BR') }, grid: { color: '#1e1e35' } } } }
@@ -157,11 +157,11 @@ new Chart(document.getElementById('chartTop5'), {
 new Chart(document.getElementById('chartSecondary'), {
   type: 'line',
   data: {
-    labels: meses6,
+    labels: meses,
     datasets: [
-      { label: 'Histórico de Saque', data: [8473,10846,9926,10111,9452,9490], borderColor: '#7c3aed', backgroundColor: 'rgba(124,58,237,0.06)', tension: 0.4, fill: true, pointRadius: 4 },
-      { label: 'Antecipação', data: [5306,5856,5498,5704,5216,5490], borderColor: '#06b6d4', backgroundColor: 'rgba(6,182,212,0.06)', tension: 0.4, fill: true, pointRadius: 4 },
-      { label: 'Saque (fluxo)', data: [2451,2234,2204,2212,2082,1987], borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.06)', tension: 0.4, fill: true, pointRadius: 4 },
+      { label: 'Histórico de Saque', data: [8473,10846,9926,10111,9452,9490,7691,6267], borderColor: '#7c3aed', backgroundColor: 'rgba(124,58,237,0.06)', tension: 0.4, fill: true, pointRadius: 4 },
+      { label: 'Antecipação', data: [5306,5856,5498,5704,5216,5490,5061,5729], borderColor: '#06b6d4', backgroundColor: 'rgba(6,182,212,0.06)', tension: 0.4, fill: true, pointRadius: 4 },
+      { label: 'Saque (fluxo)', data: [2451,2234,2204,2212,2082,1987,1906,1766], borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.06)', tension: 0.4, fill: true, pointRadius: 4 },
     ]
   },
   options: { responsive: true, plugins: { legend: { labels: { color: '#ccc', font: { size: 11 } } } }, scales: { x: { ticks: { color: '#888' }, grid: { color: '#1e1e35' } }, y: { ticks: { color: '#888', callback: v => v.toLocaleString('pt-BR') }, grid: { color: '#1e1e35' } } } }
@@ -170,11 +170,11 @@ new Chart(document.getElementById('chartSecondary'), {
 new Chart(document.getElementById('chartAlert'), {
   type: 'line',
   data: {
-    labels: meses6,
+    labels: meses,
     datasets: [
-      { label: 'KYC ¹', data: [2770,3128,2813,2810,1441,637], borderColor: '#ff4444', backgroundColor: 'rgba(255,68,68,0.1)', tension: 0.4, fill: true, pointRadius: 6 },
-      { label: 'Meus Badges', data: [231,277,262,279,87,30], borderColor: '#ff8c00', backgroundColor: 'rgba(255,140,0,0.1)', tension: 0.4, fill: true, pointRadius: 6 },
-      { label: 'Hotmart Card', data: [11684,17224,14413,13510,11097,11492], borderColor: '#f43f5e', backgroundColor: 'rgba(244,63,94,0.06)', tension: 0.4, fill: true, pointRadius: 4 },
+      { label: 'KYC ¹', data: [2770,3128,2813,2810,1441,637,439,481], borderColor: '#ff4444', backgroundColor: 'rgba(255,68,68,0.1)', tension: 0.4, fill: true, pointRadius: 6 },
+      { label: 'Meus Badges', data: [231,277,262,279,87,30,8,723], borderColor: '#ff8c00', backgroundColor: 'rgba(255,140,0,0.1)', tension: 0.4, fill: true, pointRadius: 6 },
+      { label: 'Hotmart Card', data: [11684,17224,14413,13510,11097,11492,9627,8444], borderColor: '#f43f5e', backgroundColor: 'rgba(244,63,94,0.06)', tension: 0.4, fill: true, pointRadius: 4 },
     ]
   },
   options: { responsive: true, plugins: { legend: { labels: { color: '#ccc', font: { size: 11 } } } }, scales: { x: { ticks: { color: '#888' }, grid: { color: '#1e1e35' } }, y: { ticks: { color: '#888', callback: v => v.toLocaleString('pt-BR') }, grid: { color: '#1e1e35' } } } }
@@ -184,7 +184,7 @@ function makePlatformChart(id, androidData, iosData) {
   new Chart(document.getElementById(id), {
     type: 'bar',
     data: {
-      labels: meses6,
+      labels: meses,
       datasets: [
         { label: '🤖 Android', data: androidData, backgroundColor: '#3ddc84' },
         { label: '🍎 iOS', data: iosData, backgroundColor: '#666' },
@@ -194,21 +194,21 @@ function makePlatformChart(id, androidData, iosData) {
   });
 }
 
-makePlatformChart('platWallet',  [83502,117062,103775,105541,102133,98205], [67590,89595,80931,79128,76079,75270]);
-makePlatformChart('platPocket',  [14868,19338,17652,17814,17149,19716],     [20876,24762,23254,23365,21435,21547]);
-makePlatformChart('platExtrato', [17239,23618,21314,21490,20450,19825],     [18505,22810,20710,20313,18704,19015]);
-makePlatformChart('platSaque',   [583,523,519,539,499,463],                 [1887,1724,1696,1679,1592,1531]);
+makePlatformChart('platWallet',  [83502,117062,103775,105541,102133,98205,81174,62095], [67590,89595,80931,79128,76079,75270,65688,59841]);
+makePlatformChart('platPocket',  [14868,19338,17652,17814,17149,19716,17320,15078],     [20876,24762,23254,23365,21435,21547,19498,18927]);
+makePlatformChart('platExtrato', [17239,23618,21314,21490,20450,19825,15650,11973],     [18505,22810,20710,20313,18704,19015,15990,15009]);
+makePlatformChart('platSaque',   [583,523,519,539,499,463,450,406],                     [1887,1724,1696,1679,1592,1531,1469,1366]);
 
-// ---- PIE: representatividade Mai/26 ----
-const maiData = [171805,40646,38606,13953,11492,9490,5490,1987,637,30];
-const maiLabels = ['Wallet','Receitas','Extrato','Movim. Mês','Hotmart Card','Hist. Saque','Antecipação','Saque','KYC¹','Badges'];
-const maiColors = ['#7c3aed','#06b6d4','#f59e0b','#10b981','#f43f5e','#8b5cf6','#0ea5e9','#eab308','#ff4444','#ff8c00'];
+// ---- PIE: representatividade Jul/26* ----
+const julData = [120725,33471,26776,10217,8444,6267,5729,1766,481,723];
+const pieLabels = ['Wallet','Receitas','Extrato','Movim. Mês','Hotmart Card','Hist. Saque','Antecipação','Saque','KYC¹','Badges'];
+const pieColors = ['#7c3aed','#06b6d4','#f59e0b','#10b981','#f43f5e','#8b5cf6','#0ea5e9','#eab308','#ff4444','#ff8c00'];
 
 new Chart(document.getElementById('pieUsage'), {
   type: 'doughnut',
   data: {
-    labels: maiLabels.map((l,i) => { const total = maiData.reduce((a,b)=>a+b,0); return l + ' (' + ((maiData[i]/total)*100).toFixed(1) + '%)'; }),
-    datasets: [{ data: maiData, backgroundColor: maiColors, borderWidth: 0 }]
+    labels: pieLabels.map((l,i) => { const total = julData.reduce((a,b)=>a+b,0); return l + ' (' + ((julData[i]/total)*100).toFixed(1) + '%)'; }),
+    datasets: [{ data: julData, backgroundColor: pieColors, borderWidth: 0 }]
   },
   options: {
     responsive: true,
@@ -226,18 +226,20 @@ const allMonths = [
   [182854,40392,41735,15694,14413,9926,5498,2204,2813,262],
   [182793,40666,41524,15081,13510,10111,5704,2212,2810,279],
   [176486,38070,38901,14062,11097,9452,5216,2082,1441,87],
-  [171805,40646,38606,13953,11492,9490,5490,1987,637,30]
+  [171805,40646,38606,13953,11492,9490,5490,1987,637,30],
+  [145436,36292,31457,11227,9627,7691,5061,1906,439,8],
+  [120725,33471,26776,10217,8444,6267,5729,1766,481,723]
 ];
 const pctData = allMonths.map(m => { const t = m.reduce((a,b)=>a+b,0); return m.map(v => parseFloat(((v/t)*100).toFixed(1))); });
-const stackedDatasets = maiLabels.map((label, i) => ({
+const stackedDatasets = pieLabels.map((label, i) => ({
   label: label,
   data: pctData.map(m => m[i]),
-  backgroundColor: maiColors[i],
+  backgroundColor: pieColors[i],
 }));
 
 new Chart(document.getElementById('chartUsageStacked'), {
   type: 'bar',
-  data: { labels: meses6, datasets: stackedDatasets },
+  data: { labels: meses, datasets: stackedDatasets },
   options: {
     responsive: true,
     plugins: { legend: { labels: { color: '#ccc', font: { size: 10 }, boxWidth: 12 }, position: 'bottom' }, tooltip: { callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + ctx.parsed.y + '%' } } },
