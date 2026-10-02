@@ -66,7 +66,7 @@
   label,
   COUNT(DISTINCT "user.id_security") as mau
 FROM dh_sparkle.ui_view_view_open
-WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-07-31'
+WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-09-30'
   AND label IN (
     'open_wallet',
     'open_pocket',
@@ -93,7 +93,7 @@ ORDER BY 1, 2</code></pre>
   "device.platform" as platform,
   COUNT(DISTINCT "user.id_security") as mau
 FROM dh_sparkle.ui_view_view_open
-WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-07-31'
+WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-09-30'
   AND label IN (
     'open_wallet',
     'open_pocket',
@@ -120,7 +120,7 @@ ORDER BY 1, 2, 3</code></pre>
   DATE_TRUNC('month', CAST(hub_transaction_date AS DATE)) as mes,
   COUNT(DISTINCT ucode) as mau
 FROM dh_hotmart_app_wallet.statement_view
-WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-07-31'
+WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-09-30'
 GROUP BY 1
 ORDER BY 1</code></pre>
 </div>
@@ -139,7 +139,7 @@ ORDER BY 1</code></pre>
   platform,
   COUNT(DISTINCT ucode) as mau
 FROM dh_hotmart_app_wallet.statement_view
-WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-07-31'
+WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-09-30'
   AND platform IN ('IOS', 'ANDROID')
 GROUP BY 1, 2
 ORDER BY 1, 2</code></pre>
@@ -157,7 +157,7 @@ ORDER BY 1, 2</code></pre>
   DATE_TRUNC('month', CAST(hub_transaction_date AS DATE)) as mes,
   COUNT(DISTINCT ucode) as mau
 FROM dh_hotmart_app_wallet.transactions_view
-WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-07-31'
+WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-09-30'
 GROUP BY 1
 ORDER BY 1</code></pre>
 </div>
@@ -174,7 +174,7 @@ ORDER BY 1</code></pre>
   DATE_TRUNC('month', CAST(hub_transaction_date AS DATE)) as mes,
   COUNT(DISTINCT ucode) as mau
 FROM dh_hotmart_app_wallet.hotcard_view
-WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-07-31'
+WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-09-30'
 GROUP BY 1
 ORDER BY 1</code></pre>
 </div>
@@ -191,7 +191,7 @@ ORDER BY 1</code></pre>
   DATE_TRUNC('month', CAST(hub_transaction_date AS DATE)) as mes,
   COUNT(DISTINCT ucode) as mau
 FROM dh_hotmart_app_wallet.payment_schedule_view
-WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-07-31'
+WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-09-30'
 GROUP BY 1
 ORDER BY 1</code></pre>
 </div>
@@ -208,7 +208,7 @@ ORDER BY 1</code></pre>
   DATE_TRUNC('month', CAST(hub_transaction_date AS DATE)) as mes,
   COUNT(DISTINCT ucode) as mau
 FROM dh_hotmart_app_wallet.kyc_view
-WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-07-31'
+WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-09-30'
 GROUP BY 1
 ORDER BY 1</code></pre>
 </div>
@@ -225,7 +225,7 @@ ORDER BY 1</code></pre>
   DATE_TRUNC('month', CAST(hub_transaction_date AS DATE)) as mes,
   COUNT(DISTINCT ucode) as mau
 FROM dh_hotmart_app_wallet.journey_view
-WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-07-31'
+WHERE hub_transaction_date BETWEEN '2025-12-01' AND '2026-09-30'
 GROUP BY 1
 ORDER BY 1</code></pre>
 </div>
@@ -241,7 +241,7 @@ ORDER BY 1</code></pre>
   <button class="copy-btn" onclick="copyQuery(this)">📋 Copiar</button>
   <pre><code>SELECT DISTINCT label
 FROM dh_sparkle.ui_view_view_open
-WHERE hub_transaction_date >= '2026-07-01'
+WHERE hub_transaction_date >= '2026-09-01'
 ORDER BY label</code></pre>
 </div>
 
@@ -258,7 +258,7 @@ ORDER BY label</code></pre>
   hub_transaction_date as data_evento
 FROM dh_sparkle.ui_view_view_open
 WHERE (label = 'open_wallet' OR label = 'open_pocket')
-  AND hub_transaction_date BETWEEN '2026-07-01' AND '2026-07-31'
+  AND hub_transaction_date BETWEEN '2026-09-01' AND '2026-09-30'
 GROUP BY label, hub_transaction_date
 ORDER BY hub_transaction_date, label</code></pre>
 </div>
@@ -280,7 +280,7 @@ ORDER BY hub_transaction_date, label</code></pre>
   </div>
 </div>
 
-<div class="footer">Queries SQL — MAU Dashboard · Atualizado em 04/08/2026 · Datasource: DH_ATHENA (Astrobox)<br>Responsável: Marco Túlio Furiatti — Development Manager, PU Trust</div>
+<div class="footer">Queries SQL — MAU Dashboard · Atualizado em 02/10/2026 · Datasource: DH_ATHENA (Astrobox)<br>Responsável: Marco Túlio Furiatti — Development Manager, PU Trust</div>
 
 <script>
 function copyQuery(btn) {
